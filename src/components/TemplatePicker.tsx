@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { buildContextPath } from '../lib/routes';
 import { buildTwitterIntentUrl, extractTwitterHandle } from '../lib/social';
+import { maybeAppendLocationLink } from '../lib/location';
 import type { ContextEntry, ContactChannel, Municipality } from '../types/pa';
 import type { MessageTemplateGroup } from '../types/templates';
 
@@ -22,6 +23,8 @@ const TemplatePicker = ({
   const handle = useMemo(() => extractTwitterHandle(channel.value), [channel.value]);
   const baseMessage = handle ? `${handle} ` : '';
 
+  const [requestingTemplateId, setRequestingTemplateId] = useState<string | null>(null);
+
   const templates = useMemo(() => {
     const definedTemplates = templateGroup?.templates ?? [];
     const customTemplate = {
@@ -33,8 +36,16 @@ const TemplatePicker = ({
     return [...definedTemplates, customTemplate];
   }, [templateGroup?.templates, baseMessage]);
 
-  const handleUseTemplate = (message: string) => {
-    const finalMessage = message || baseMessage;
+  const handleUseTemplate = async (templateId: string, message: string) => {
+    let finalMessage = message || baseMessage;
+    if (typeof window !== 'undefined') {
+      finalMessage = await maybeAppendLocationLink(finalMessage, {
+        onRequestStart: () => setRequestingTemplateId(templateId),
+        onRequestEnd: () => setRequestingTemplateId(null)
+      });
+      // Ensure the button state resets even if the location prompt was skipped.
+      setRequestingTemplateId(null);
+    }
     const url = buildTwitterIntentUrl(finalMessage);
     if (typeof window !== 'undefined') {
       window.open(url, '_blank', 'noopener');
@@ -78,11 +89,12 @@ const TemplatePicker = ({
               ) : null}
             </div>
             <button
-              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-brand/60"
               type="button"
-              onClick={() => handleUseTemplate(template.message)}
+              onClick={() => handleUseTemplate(template.id, template.message)}
+              disabled={requestingTemplateId === template.id}
             >
-              Usa questo messaggio
+              {requestingTemplateId === template.id ? 'Recupero posizione…' : 'Usa questo messaggio'}
               <span aria-hidden="true">↗</span>
             </button>
           </article>

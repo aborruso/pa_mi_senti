@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { ContextEntry, Municipality } from '../types/pa';
 import { buildTemplatePath } from '../lib/routes';
 import { extractTwitterHandle, buildTwitterIntentUrl } from '../lib/social';
+import { maybeAppendLocationLink } from '../lib/location';
 
 interface ContextDetailProps {
   municipality: Municipality;
@@ -118,13 +120,19 @@ const TwitterChannelActions = ({
 }: TwitterChannelActionsProps) => {
   const handle = extractTwitterHandle(profileUrl);
   const baseMessage = handle ? `${handle} ` : '';
-  const handleTemplateNavigation = () => {
+  const [isRequestingLocation, setIsRequestingLocation] = useState(false);
+
+  const handleTemplateNavigation = async () => {
     if (channelKey) {
       onNavigate(buildTemplatePath(municipality.istat, contextSlug, channelKey));
       return;
     }
     if (typeof window !== 'undefined') {
-      window.open(buildTwitterIntentUrl(baseMessage), '_blank', 'noopener');
+      const finalMessage = await maybeAppendLocationLink(baseMessage, {
+        onRequestStart: () => setIsRequestingLocation(true),
+        onRequestEnd: () => setIsRequestingLocation(false)
+      });
+      window.open(buildTwitterIntentUrl(finalMessage), '_blank', 'noopener');
     }
   };
 
@@ -132,11 +140,12 @@ const TwitterChannelActions = ({
     <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-brand-dark">
       {handle ? <span>{handle}</span> : null}
       <button
-        className="inline-flex items-center rounded-md bg-brand px-3 py-1 text-xs font-semibold text-white transition hover:bg-brand-dark"
+        className="inline-flex items-center rounded-md bg-brand px-3 py-1 text-xs font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-brand/60"
         onClick={handleTemplateNavigation}
         type="button"
+        disabled={isRequestingLocation}
       >
-        Scrivigli
+        {isRequestingLocation ? 'Recupero posizione…' : 'Scrivigli'}
       </button>
       <a
         className="text-xs font-medium text-brand underline-offset-2 hover:underline"
