@@ -17,27 +17,26 @@ const municipalities = getMunicipalities().sort((a, b) => a.name.localeCompare(b
     </header>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {municipalities.map((municipality) => (
-        <a
-          href={buildCityPath(municipality.istat)}
-          class="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-lg hover:border-brand cursor-pointer"
-        >
-          <div class="mb-4">
-            <h3 class="text-lg font-semibold text-slate-900">{municipality.name}</h3>
-            <p class="text-xs uppercase tracking-wide text-slate-500">
-              {municipality.region} · ISTAT {municipality.istat}
+        <a href={buildCityPath(municipality.istat)} class="group block h-full cursor-pointer focus:outline-none">
+          <div class="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition group-hover:shadow-lg group-hover:border-brand group-focus-visible:border-brand">
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-slate-900">{municipality.name}</h3>
+              <p class="text-xs uppercase tracking-wide text-slate-500">
+                {municipality.region} · ISTAT {municipality.istat}
+              </p>
+            </div>
+            <p class="mb-4 text-sm text-slate-600">
+              {municipality.contexts.length} temi disponibili
+              {municipality.population
+                ? ` · Popolazione ${new Intl.NumberFormat("it-IT").format(
+                    municipality.population
+                  )}`
+                : ""}
             </p>
-          </div>
-          <p class="mb-4 text-sm text-slate-600">
-            {municipality.contexts.length} temi disponibili
-            {municipality.population
-              ? ` · Popolazione ${new Intl.NumberFormat("it-IT").format(
-                  municipality.population
-                )}`
-              : ""}
-          </p>
-          <div class="mt-auto inline-flex items-center gap-2 text-sm font-medium text-brand">
-            <span>Scegli città</span>
-            <span aria-hidden="true">→</span>
+            <div class="mt-auto inline-flex items-center gap-2 text-sm font-medium text-brand">
+              <span>Scegli città</span>
+              <span aria-hidden="true">→</span>
+            </div>
           </div>
         </a>
       ))}

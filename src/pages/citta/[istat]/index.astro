@@ -37,27 +37,30 @@ const channelTypeLabels: Record<string, string> = {
       {municipality.contexts.map((context) => (
         <a
           href={buildContextPath(municipality.istat, context.slug)}
-          class={`flex flex-col rounded-2xl border border-slate-200 p-5 shadow-sm transition hover:shadow-lg hover:border-brand cursor-pointer ${context.color || 'bg-white'}`}
+          class="group block h-full cursor-pointer focus:outline-none"
         >
-          <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-900">
-            {context.emoji && <span class="text-2xl" aria-hidden="true">{context.emoji}</span>}
-            <span>{context.name}</span>
-          </h3>
-          <p class="mt-2 text-sm text-slate-600">{context.description}</p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            {context.channels.map((channel) => (
-              <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand-dark">
-                {channelTypeLabels[channel.type] || channel.type}
-              </span>
-            ))}
-          </div>
-          <div class="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-medium text-brand">
-            <span>Vedi canali</span>
-            <span aria-hidden="true">→</span>
+          <div
+            class={`flex h-full flex-col rounded-2xl border border-slate-200 p-5 shadow-sm transition group-hover:shadow-lg group-hover:border-brand group-focus-visible:border-brand ${context.color || 'bg-white'}`}
+          >
+            <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-900">
+              {context.emoji && <span class="text-2xl" aria-hidden="true">{context.emoji}</span>}
+              <span>{context.name}</span>
+            </h3>
+            <p class="mt-2 text-sm text-slate-600">{context.description}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {context.channels.map((channel) => (
+                <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand-dark">
+                  {channelTypeLabels[channel.type] || channel.type}
+                </span>
+              ))}
+            </div>
+            <div class="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-medium text-brand">
+              <span>Vedi canali</span>
+              <span aria-hidden="true">→</span>
+            </div>
           </div>
         </a>
       ))}
     </div>
   </section>
 </BaseLayout>
-
