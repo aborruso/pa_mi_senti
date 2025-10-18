@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "ASTRO_BASE=/pa_mi_senti/ astro build",
     "preview": "astro preview",
     "lint": "eslint .",
     "format": "prettier --check ."
