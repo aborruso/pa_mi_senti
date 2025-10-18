@@ -8,6 +8,8 @@ municipalities:
       - slug: "nettezza_urbana"
         name: "Igiene urbana"
         description: "Segnala rifiuti abbandonati, cassonetti danneggiati o mancati ritiri."
+        emoji: "♻️"
+        color: "bg-emerald-50"
         helpfulLinks:
           - label: "Sito RAP Palermo"
             url: "https://www.rapspa.it/"
@@ -29,6 +31,8 @@ municipalities:
       - slug: "polizia_municipale"
         name: "Polizia Municipale"
         description: "Richiedi interventi per viabilità, incidenti o supporto della Polizia Municipale."
+        emoji: "🚔"
+        color: "bg-blue-50"
         helpfulLinks:
           - label: "Sito Polizia Municipale"
             url: "https://repository.comune.palermo.it/polizia-municipale.php"
