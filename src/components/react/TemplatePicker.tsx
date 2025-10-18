@@ -29,7 +29,7 @@ const TemplatePicker = ({
     const custom: MessageTemplateItem = {
       id: "custom",
       label: "Scrivi un messaggio libero",
-      description: "Apri Twitter con il destinatario già compilato e completa il testo.",
+      description: "Apri Twitter/X con il destinatario già compilato e completa il testo.",
       message: baseMessage
     };
     return [...defined, custom];
@@ -63,7 +63,7 @@ const TemplatePicker = ({
         <p className="text-xs uppercase tracking-wide text-brand">Messaggi precompilati</p>
         <h2 className="text-2xl font-semibold text-slate-900">{channelLabel}</h2>
         <p className="mt-2 text-sm text-slate-600">
-          Scegli uno dei modelli rapidi oppure apri Twitter con un messaggio libero. Potrai sempre
+          Scegli uno dei modelli rapidi oppure apri Twitter/X con un messaggio libero. Potrai sempre
           modificare il testo prima dell&apos;invio.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
@@ -119,7 +119,7 @@ const TemplatePicker = ({
           target="_blank"
           rel="noreferrer"
         >
-          Apri il profilo su Twitter
+          Apri il profilo su Twitter/X
         </a>
       </div>
     </section>

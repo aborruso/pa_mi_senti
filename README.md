@@ -29,7 +29,7 @@ Apri `http://localhost:4321` per la versione locale. Tutti i permalink (`/citta/
 I dati principali risiedono in:
 
 - `src/data/pa.yml` — elenco municipalità, contesti e canali.
-- `src/data/templates.yml` — modelli precompilati per i canali (es. Twitter).
+- `src/data/templates.yml` — modelli precompilati per i canali (es. Twitter/X).
 
 Ogni modifica ai file YAML rigenera automaticamente le rotte statiche:
 
