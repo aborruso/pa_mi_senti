@@ -40,22 +40,21 @@ const TemplatePicker = ({
       return;
     }
 
-    const popup = window.open("about:blank", "_blank", "noopener");
-    let finalMessage = template.message || baseMessage;
+    const initialMessage = template.message || baseMessage;
+    setActiveTemplate(template.id);
+    let finalMessage = initialMessage;
 
-    finalMessage = await maybeAppendLocationLink(finalMessage, {
-      onRequestStart: () => setActiveTemplate(template.id),
-      onRequestEnd: () => setActiveTemplate(null)
-    });
-
-    setActiveTemplate(null);
-
-    const url = buildTwitterIntentUrl(finalMessage);
-    if (popup) {
-      popup.location.href = url;
-    } else {
-      window.open(url, "_blank", "noopener");
+    try {
+      finalMessage = await maybeAppendLocationLink(initialMessage, {
+        onRequestStart: () => setActiveTemplate(template.id),
+        onRequestEnd: () => setActiveTemplate(null)
+      });
+    } finally {
+      setActiveTemplate(null);
     }
+
+    const finalUrl = buildTwitterIntentUrl(finalMessage);
+    window.open(finalUrl, "_blank", "noopener");
   };
 
   return (
