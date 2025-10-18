@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+*.js diff=javascript
+*.ts diff=javascript
+*.tsx diff=javascript
+*.css diff=css
+*.scss diff=css
+*.json linguist-language=JSON
+*.yml diff=yaml
+*.yaml diff=yaml
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.svg text

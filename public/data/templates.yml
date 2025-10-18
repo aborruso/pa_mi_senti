@@ -1,0 +1,14 @@
+updatedAt: "2024-08-10"
+templates:
+  - contextSlug: "nettezza_urbana"
+    channelKey: "palermo-rap-twitter"
+    channelType: "social"
+    templates:
+      - id: "rifiuti_abbandonati"
+        label: "Segnalare abbandono di rifiuti"
+        description: "Per cumuli di rifiuti in strada o in prossimità di cassonetti."
+        message: "Buongiorno @RapPalermo, segnalo un abbandono di rifiuti in {indirizzo}. Potete intervenire? Grazie!"
+      - id: "cestini_pieni"
+        label: "Segnalare cestini pieni"
+        description: "Per cestini pubblici colmi o inutilizzabili."
+        message: "Buongiorno @RapPalermo, segnalo che i cestini in {indirizzo/piazza} sono pieni e inutilizzabili. Potete verificarli? Grazie!"
