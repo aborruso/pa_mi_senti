@@ -13,8 +13,8 @@ export interface ContextEntry {
   slug: string;
   name: string;
   description: string;
-  responseTime?: string;
   channels: ContactChannel[];
+  helpfulLinks?: Array<{ label: string; url: string }>;
 }
 
 export interface Municipality {
@@ -23,7 +23,6 @@ export interface Municipality {
   region: string;
   population?: number;
   contexts: ContextEntry[];
-  helpfulLinks?: Array<{ label: string; url: string }>;
 }
 
 export interface Registry {

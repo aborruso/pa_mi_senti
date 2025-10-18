@@ -35,11 +35,6 @@ const { municipality, context } = Astro.props as {
         <p class="text-xs uppercase tracking-wide text-brand">Tema</p>
         <h2 class="text-2xl font-semibold text-slate-900">{context.name}</h2>
         <p class="mt-2 text-sm text-slate-600">{context.description}</p>
-        {context.responseTime ? (
-          <p class="mt-3 inline-flex items-center rounded-lg bg-brand/10 px-3 py-2 text-xs font-semibold text-brand-dark">
-            Tempo medio risposta: {context.responseTime}
-          </p>
-        ) : null}
       </header>
       <ul class="space-y-4">
         {context.channels.map((channel) => (
@@ -88,11 +83,11 @@ const { municipality, context } = Astro.props as {
         <p class="text-lg font-semibold text-slate-900">{municipality.name}</p>
         <p class="text-xs text-slate-500">ISTAT {municipality.istat}</p>
       </div>
-      {municipality.helpfulLinks?.length ? (
+      {context.helpfulLinks?.length ? (
         <div>
           <p class="text-xs uppercase tracking-wide text-slate-500">Link utili</p>
           <ul class="mt-2 space-y-2 text-sm text-brand-dark">
-            {municipality.helpfulLinks.map((link) => (
+            {context.helpfulLinks.map((link) => (
               <li>
                 <a class="hover:underline" href={link.url} target="_blank" rel="noreferrer">
                   {link.label}
@@ -105,3 +100,4 @@ const { municipality, context } = Astro.props as {
     </aside>
   </section>
 </BaseLayout>
+
