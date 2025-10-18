@@ -19,6 +19,18 @@ const { title = "PA Mi Senti", description } = Astro.props as Props;
       name="description"
       content={description ?? "Trova il canale giusto per contattare la tua Pubblica Amministrazione."}
     />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/pa_mi_senti/favicon.svg" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/pa_mi_senti/icon-192.svg" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pa_mi_senti/manifest.json" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0b7285" />
   </head>
   <body>
     <div class="min-h-screen bg-slate-50">

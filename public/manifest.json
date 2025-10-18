@@ -1,0 +1,23 @@
+{
+  "name": "PA Mi Senti",
+  "short_name": "PA Mi Senti",
+  "description": "Contatta la tua PA in pochi click",
+  "start_url": "/pa_mi_senti/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b7285",
+  "icons": [
+    {
+      "src": "/pa_mi_senti/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pa_mi_senti/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
