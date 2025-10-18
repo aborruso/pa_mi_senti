@@ -18,6 +18,13 @@ const { municipality, context } = Astro.props as {
   municipality: Municipality;
   context: ContextEntry;
 };
+
+const channelTypeLabels: Record<string, string> = {
+  email: "Email",
+  phone: "Telefono",
+  form: "Modulo",
+  social: "Social"
+};
 ---
 
 <BaseLayout title={`PA Mi Senti · ${context.name} · ${municipality.name}`}>
@@ -44,7 +51,7 @@ const { municipality, context } = Astro.props as {
           <li class="rounded-xl border border-slate-200 p-4">
             <div class="flex flex-wrap items-baseline justify-between gap-2">
               <span class="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold uppercase text-brand-dark">
-                {channel.type}
+                {channelTypeLabels[channel.type] || channel.type}
               </span>
               <span class="text-sm font-medium text-slate-900">{channel.label}</span>
             </div>

@@ -13,6 +13,13 @@ export function getStaticPaths() {
 }
 
 const { municipality } = Astro.props as { municipality: Municipality };
+
+const channelTypeLabels: Record<string, string> = {
+  email: "Email",
+  phone: "Telefono",
+  form: "Modulo",
+  social: "Social"
+};
 ---
 
 <BaseLayout title={`PA Mi Senti · ${municipality.name}`}>
@@ -37,7 +44,7 @@ const { municipality } = Astro.props as { municipality: Municipality };
           <div class="mt-4 flex flex-wrap gap-2">
             {context.channels.map((channel) => (
               <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand-dark">
-                {channel.type}
+                {channelTypeLabels[channel.type] || channel.type}
               </span>
             ))}
           </div>
