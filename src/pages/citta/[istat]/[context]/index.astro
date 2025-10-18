@@ -30,10 +30,13 @@ const { municipality, context } = Astro.props as {
   />
 
   <section class="grid gap-6 lg:grid-cols-[2fr,1fr]">
-    <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <article class={`rounded-2xl border border-slate-200 p-6 shadow-sm ${context.color || 'bg-white'}`}>
       <header class="mb-6">
         <p class="text-xs uppercase tracking-wide text-brand">Tema</p>
-        <h2 class="text-2xl font-semibold text-slate-900">{context.name}</h2>
+        <h2 class="flex items-center gap-2 text-2xl font-semibold text-slate-900">
+          {context.emoji && <span class="text-3xl" aria-hidden="true">{context.emoji}</span>}
+          <span>{context.name}</span>
+        </h2>
         <p class="mt-2 text-sm text-slate-600">{context.description}</p>
       </header>
       <ul class="space-y-4">

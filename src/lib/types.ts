@@ -13,6 +13,8 @@ export interface ContextEntry {
   slug: string;
   name: string;
   description: string;
+  emoji?: string;
+  color?: string;
   channels: ContactChannel[];
   helpfulLinks?: Array<{ label: string; url: string }>;
 }
