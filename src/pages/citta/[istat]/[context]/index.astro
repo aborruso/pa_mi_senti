@@ -47,44 +47,62 @@ const channelTypeLabels: Record<string, string> = {
         <p class="mt-2 text-sm text-slate-600">{context.description}</p>
       </header>
       <ul class="space-y-4">
-        {context.channels.map((channel) => (
-          <li class="rounded-xl border border-slate-200 p-4">
-            <div class="flex flex-wrap items-baseline justify-between gap-2">
-              <span class="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold uppercase text-brand-dark">
-                {channelTypeLabels[channel.type] || channel.type}
-              </span>
-              <span class="text-sm font-medium text-slate-900">{channel.label}</span>
-            </div>
-            <p class="mt-2 break-all text-sm text-brand-dark">
-              {channel.type === "email" ? (
-                <a class="hover:underline" href={`mailto:${channel.value}`}>
-                  {channel.value}
-                </a>
-              ) : channel.type === "phone" ? (
-                <a class="hover:underline" href={`tel:${channel.value.replace(/\s+/g, "")}`}>
-                  {channel.value}
+        {context.channels.map((channel) => {
+          const hasSocialButton = channel.type === "social" && channel.platform === "twitter" && channel.key;
+          const socialUrl = hasSocialButton ? buildTemplatePath(municipality.istat, context.slug, channel.key!) : "";
+
+          return (
+            <li class={`rounded-xl border border-slate-200 p-4 transition ${hasSocialButton ? 'hover:shadow-md hover:border-brand cursor-pointer' : ''}`}>
+              {hasSocialButton ? (
+                <a href={socialUrl} class="block">
+                  <div class="flex flex-wrap items-baseline justify-between gap-2">
+                    <span class="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold uppercase text-brand-dark">
+                      {channelTypeLabels[channel.type] || channel.type}
+                    </span>
+                    <span class="text-sm font-medium text-slate-900">{channel.label}</span>
+                  </div>
+                  <p class="mt-2 break-all text-sm text-brand-dark">
+                    <span class="hover:underline">{channel.value}</span>
+                  </p>
+                  {channel.notes && (
+                    <p class="mt-2 text-xs text-slate-500">Nota: {channel.notes}</p>
+                  )}
+                  <div class="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white">
+                    Scrivigli su Twitter
+                    <span aria-hidden="true">↗</span>
+                  </div>
                 </a>
               ) : (
-                <a class="hover:underline" href={channel.value} target="_blank" rel="noreferrer">
-                  {channel.value}
-                </a>
+                <>
+                  <div class="flex flex-wrap items-baseline justify-between gap-2">
+                    <span class="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold uppercase text-brand-dark">
+                      {channelTypeLabels[channel.type] || channel.type}
+                    </span>
+                    <span class="text-sm font-medium text-slate-900">{channel.label}</span>
+                  </div>
+                  <p class="mt-2 break-all text-sm text-brand-dark">
+                    {channel.type === "email" ? (
+                      <a class="hover:underline" href={`mailto:${channel.value}`}>
+                        {channel.value}
+                      </a>
+                    ) : channel.type === "phone" ? (
+                      <a class="hover:underline" href={`tel:${channel.value.replace(/\s+/g, "")}`}>
+                        {channel.value}
+                      </a>
+                    ) : (
+                      <a class="hover:underline" href={channel.value} target="_blank" rel="noreferrer">
+                        {channel.value}
+                      </a>
+                    )}
+                  </p>
+                  {channel.notes && (
+                    <p class="mt-2 text-xs text-slate-500">Nota: {channel.notes}</p>
+                  )}
+                </>
               )}
-            </p>
-            {channel.notes ? (
-              <p class="mt-2 text-xs text-slate-500">Nota: {channel.notes}</p>
-            ) : null}
-
-            {channel.type === "social" && channel.platform === "twitter" && channel.key ? (
-              <a
-                class="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-dark"
-                href={buildTemplatePath(municipality.istat, context.slug, channel.key)}
-              >
-                Scrivigli su Twitter
-                <span aria-hidden="true">↗</span>
-              </a>
-            ) : null}
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
     </article>
     <aside class="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

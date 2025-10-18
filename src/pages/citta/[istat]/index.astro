@@ -35,7 +35,10 @@ const channelTypeLabels: Record<string, string> = {
     </header>
     <div class="grid gap-4 sm:grid-cols-2">
       {municipality.contexts.map((context) => (
-        <article class={`flex flex-col rounded-2xl border border-slate-200 p-5 shadow-sm transition hover:shadow-md ${context.color || 'bg-white'}`}>
+        <a
+          href={buildContextPath(municipality.istat, context.slug)}
+          class={`flex flex-col rounded-2xl border border-slate-200 p-5 shadow-sm transition hover:shadow-lg hover:border-brand cursor-pointer ${context.color || 'bg-white'}`}
+        >
           <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-900">
             {context.emoji && <span class="text-2xl" aria-hidden="true">{context.emoji}</span>}
             <span>{context.name}</span>
@@ -48,17 +51,13 @@ const channelTypeLabels: Record<string, string> = {
               </span>
             ))}
           </div>
-          <div class="mt-auto pt-4">
-            <a
-              class="inline-flex items-center justify-center gap-2 rounded-lg border border-brand px-4 py-2.5 text-sm font-medium text-brand transition hover:bg-brand hover:text-white"
-              href={buildContextPath(municipality.istat, context.slug)}
-            >
-              Vedi canali
-              <span aria-hidden="true">→</span>
-            </a>
+          <div class="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-medium text-brand">
+            <span>Vedi canali</span>
+            <span aria-hidden="true">→</span>
           </div>
-        </article>
+        </a>
       ))}
     </div>
   </section>
 </BaseLayout>
+
