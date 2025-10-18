@@ -49,3 +49,13 @@ municipalities:
           - type: "email"
             label: "Polizia Municipale"
             value: "comandopoliziamunicipale@comune.palermo.it"
+      - slug: "manutenzione_strade"
+        name: "Manutenzione strade e marciapiedi"
+        description: "Per segnalare situazioni di urgenza relative a strade e marciapiedi."
+        emoji: "🛣️"
+        color: "bg-yellow-50"
+        channels:
+          - type: "email"
+            label: "Pronto intervento manutenzione strade"
+            value: "servizio.manutenzionestrade@comune.palermo.it"
+            notes: "inviare segnalazioni con foto e dettagli toponomastici. Il servizio è attivo dalle ore 7:30 alle ore 14:00 nei giorni di lunedì, martedì, giovedì e venerdì e dalle ore 7:30 alle ore 18:00 di mercoledì."

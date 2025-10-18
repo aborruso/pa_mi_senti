@@ -9,7 +9,8 @@ module.exports = {
     'bg-violet-50',
     'bg-sky-50',
     'bg-lime-50',
-    'bg-orange-50'
+    'bg-orange-50',
+    'bg-yellow-50'
   ],
   theme: {
     extend: {
