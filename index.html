@@ -8,6 +8,25 @@
       content="Trova il canale giusto per contattare la tua Pubblica Amministrazione."
     />
     <title>PA Mi Senti</title>
+    <script>
+      (function () {
+        try {
+          var redirect = window.sessionStorage.getItem("redirect");
+          if (redirect) {
+            window.sessionStorage.removeItem("redirect");
+            var segments = window.location.pathname.split("/").filter(Boolean);
+            var repoSegment = segments.length > 0 ? segments[0] : "";
+            var basePath = repoSegment ? "/" + repoSegment + "/" : "/";
+            var cleanBase = basePath.replace(/\/+$/, "");
+            var cleanRedirect = String(redirect).replace(/^\/+/, "");
+            var finalUrl = cleanBase ? cleanBase + "/" + cleanRedirect : "/" + cleanRedirect;
+            window.history.replaceState(null, "", finalUrl);
+          }
+        } catch (error) {
+          console.warn("Impossibile applicare il redirect client-side:", error);
+        }
+      })();
+    </script>
   </head>
   <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
