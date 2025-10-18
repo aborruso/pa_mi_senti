@@ -4,8 +4,9 @@
 
 body {
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  @apply bg-slate-50 text-slate-900;
 }
 
-.tile {
-  @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md;
+a {
+  @apply text-brand-dark hover:text-brand underline-offset-2;
 }

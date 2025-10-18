@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../../../components/Breadcrumbs.astro";
+import TemplatePicker from "../../../../../components/react/TemplatePicker.tsx";
+import { getMunicipalities, findTemplateGroup } from "../../../../../lib/data";
+import { buildCityPath, buildContextPath } from "../../../../../lib/paths";
+import type {
+  ContactChannel,
+  ContextEntry,
+  MessageTemplateGroup,
+  Municipality
+} from "../../../../../lib/types";
+
+interface TemplateProps {
+  municipality: Municipality;
+  context: ContextEntry;
+  channel: ContactChannel;
+  templateGroup?: MessageTemplateGroup;
+}
+
+export function getStaticPaths() {
+  return getMunicipalities().flatMap((municipality) =>
+    municipality.contexts.flatMap((context) =>
+      context.channels
+        .filter((channel) => channel.key && channel.type === "social" && channel.platform === "twitter")
+        .map((channel) => ({
+          params: {
+            istat: municipality.istat,
+            context: context.slug,
+            channelKey: channel.key as string
+          },
+          props: {
+            municipality,
+            context,
+            channel,
+            templateGroup: findTemplateGroup(context.slug, channel.key as string)
+          }
+        }))
+    )
+  );
+}
+
+const { municipality, context, channel, templateGroup } = Astro.props as TemplateProps;
+const templates = templateGroup?.templates ?? [];
+const backUrl = buildContextPath(municipality.istat, context.slug);
+---
+
+<BaseLayout title={`PA Mi Senti · Messaggi ${channel.label} · ${context.name}`}>
+  <Breadcrumbs
+    items={[
+      { label: "Città", href: "/" },
+      { label: municipality.name, href: buildCityPath(municipality.istat) },
+      { label: context.name, href: backUrl },
+      { label: channel.label }
+    ]}
+  />
+
+  <TemplatePicker
+    client:load
+    municipalityName={municipality.name}
+    contextName={context.name}
+    channelLabel={channel.label}
+    channelValue={channel.value}
+    templates={templates}
+    backUrl={backUrl}
+  />
+</BaseLayout>

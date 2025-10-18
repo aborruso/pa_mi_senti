@@ -1,11 +1,9 @@
 * text=auto eol=lf
 
-*.js diff=javascript
+*.astro diff=astro
 *.ts diff=javascript
 *.tsx diff=javascript
 *.css diff=css
-*.scss diff=css
-*.json linguist-language=JSON
 *.yml diff=yaml
 *.yaml diff=yaml
 

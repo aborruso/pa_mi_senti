@@ -1,6 +1,6 @@
-# PA Mi Senti
+# PA Mi Senti (Astro)
 
-Interfaccia web statica (compatibile con GitHub Pages) che aiuta i cittadini a trovare rapidamente il canale giusto per contattare la Pubblica Amministrazione in base al tema della segnalazione.
+Sito statico generato con Astro che aiuta i cittadini a trovare rapidamente il canale giusto per contattare la Pubblica Amministrazione in base al tema della segnalazione. Ogni rotta viene pre-renderizzata per funzionare anche con URL condivisi direttamente (es. `https://aborruso.github.io/citta/082053/...`).
 
 ## Requisiti
 
@@ -14,17 +14,29 @@ npm install
 npm run dev
 ```
 
-La pagina di sviluppo è raggiungibile su `http://localhost:5173`. La navigazione client-side genera permalink del tipo `/citta/{istat}/{tema}`.
+Apri `http://localhost:4321` per la versione locale. Tutti i permalink (`/citta/{istat}/{tema}/...`) sono generati staticamente durante la build.
 
 ## Comandi principali
 
-- `npm run build` — produce la versione statica in `dist/` pronta per GitHub Pages.
-- `npm run lint` — controlla lo stile con ESLint e TypeScript.
-- `npm run test` — lancia Vitest e valida la struttura YAML (`npm run data:check`).
-- `npm run preview` — avvia un server locale sulla build prodotta.
+- `npm run dev` — avvia Astro in modalità sviluppo con HMR.
+- `npm run build` — genera la versione statica in `dist/` (pronta per GitHub Pages).
+- `npm run preview` — avvia un server che serve la build prodotta.
+- `npm run lint` — esegue ESLint sui file TypeScript/TSX.
+- `npm run format` — verifica la formattazione con Prettier.
 
-## Dati anagrafici PA
+## Dati e modelli
 
-Aggiorna `public/data/pa.yml` per aggiungere nuove municipalità o contesti. Ogni città deve includere un codice ISTAT e almeno un canale per contesto. Esegui `npm run data:check` per validare il file.
+I dati principali risiedono in:
 
-I modelli di messaggio per email o social sono raccolti in `public/data/templates.yml`, organizzati per contesto e canale (identificato dal campo `key`). Quando il canale supporta modelli (es. Twitter), l’utente sceglie prima il testo da inviare e poi viene reindirizzato al canale selezionato.
+- `src/data/pa.yml` — elenco municipalità, contesti e canali.
+- `src/data/templates.yml` — modelli precompilati per i canali (es. Twitter).
+
+Ogni modifica ai file YAML rigenera automaticamente le rotte statiche:
+
+- `/citta/{istat}/` — elenco dei temi di una città.
+- `/citta/{istat}/{tema}/` — dettagli e canali per un tema.
+- `/citta/{istat}/{tema}/messaggi/{channelKey}/` — pagina di scelta dei messaggi con possibilità di allegare la posizione corrente.
+
+## Deploy su GitHub Pages
+
+Il workflow `/.github/workflows/deploy.yml` effettua build e deploy automatico a ogni push su `main`. Assicurati che le GitHub Pages siano configurate su “GitHub Actions” e che il sito sia pubblicato da `dist/`.

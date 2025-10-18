@@ -13,8 +13,8 @@ export const buildGoogleMapsLink = (coords: Coordinates): string => {
 
 export const requestCurrentPosition = (): Promise<Coordinates> =>
   new Promise((resolve, reject) => {
-    if (typeof window === 'undefined' || !('geolocation' in navigator)) {
-      reject(new Error('Geolocalizzazione non supportata'));
+    if (typeof window === "undefined" || !("geolocation" in navigator)) {
+      reject(new Error("Geolocalizzazione non supportata"));
       return;
     }
 
@@ -46,13 +46,13 @@ export const maybeAppendLocationLink = async (
   message: string,
   options?: MaybeAppendLocationOptions
 ): Promise<string> => {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return message;
   }
 
   const wantsLocation = window.confirm(
     options?.confirmMessage ??
-      'Vuoi aggiungere un link con la tua posizione attuale al messaggio?'
+      "Vuoi aggiungere un link con la tua posizione attuale al messaggio?"
   );
 
   if (!wantsLocation) {
@@ -66,7 +66,7 @@ export const maybeAppendLocationLink = async (
     const trimmed = message.trim();
     return trimmed ? `${trimmed} ${mapsLink}` : mapsLink;
   } catch (error) {
-    window.alert('Non è stato possibile recuperare la tua posizione.');
+    window.alert("Non è stato possibile recuperare la tua posizione.");
     return message;
   } finally {
     options?.onRequestEnd?.();

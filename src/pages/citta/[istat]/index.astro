@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { getMunicipalities } from "../../../lib/data";
+import { buildContextPath } from "../../../lib/paths";
+import type { Municipality } from "../../../lib/types";
+
+export function getStaticPaths() {
+  return getMunicipalities().map((municipality) => ({
+    params: { istat: municipality.istat },
+    props: { municipality }
+  }));
+}
+
+const { municipality } = Astro.props as { municipality: Municipality };
+---
+
+<BaseLayout title={`PA Mi Senti · ${municipality.name}`}>
+  <Breadcrumbs items={[{ label: "Città", href: "/" }, { label: municipality.name }]} />
+  <section class="space-y-6">
+    <header>
+      <h2 class="text-xl font-semibold text-slate-900">
+        Seleziona il tema per {municipality.name}
+      </h2>
+      <p class="text-sm text-slate-600">
+        Ogni tema offre i canali consigliati per velocizzare la tua richiesta.
+      </p>
+    </header>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {municipality.contexts.map((context) => (
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+          <h3 class="text-lg font-semibold text-slate-900">{context.name}</h3>
+          <p class="mt-2 text-sm text-slate-600">{context.description}</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {context.channels.map((channel) => (
+              <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand-dark">
+                {channel.type}
+              </span>
+            ))}
+          </div>
+          <a
+            class="mt-4 inline-flex items-center gap-2 rounded-lg border border-brand px-4 py-2 text-sm font-medium text-brand transition hover:bg-brand hover:text-white"
+            href={buildContextPath(municipality.istat, context.slug)}
+          >
+            Vedi canali
+            <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

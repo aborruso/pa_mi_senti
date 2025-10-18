@@ -1,23 +1,10 @@
-# Dependencies
 node_modules/
-
-# Build outputs
+.astro/
 dist/
-*.log
-
-# Vite cache
-.vite/
-
-# Testing and coverage
-coverage/
-
-# Env files
+.DS_Store
+Thumbs.db
 .env
 .env.*
 !.env.example
-
-# IDE / OS
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
+.vercel/
+.netlify/

@@ -1,26 +1,31 @@
-# Agent Guidelines
+# Repository Guidelines
 
-## Commands
+Questo progetto usa Astro per generare un sito statico con permalink tematici per la Pubblica Amministrazione. Ogni contributo deve preservare la generazione statica delle rotte (`/citta/{istat}/...`) e l’esperienza di invio rapido dei messaggi social con modello e geolocalizzazione opzionale.
 
-- Dev: `npm run dev` (Vite with hot reload)
-- Build: `npm run build` (static dist/ for GitHub Pages)
-- Test all: `npm run test` (runs Vitest + data validation)
-- Test single: `npx vitest run src/tests/routes.test.ts` or `npx vitest src/lib/routes`
-- Lint: `npm run lint` (ESLint on .ts/.tsx files)
-- Format check: `npm run format` (Prettier)
+## Project Structure & Module Organization
+- Configurazioni principali nella root: `astro.config.mjs`, `package.json`, `tailwind.config.cjs`, `postcss.config.cjs`.
+- I dati YAML risiedono in `src/data/` e vengono caricati tramite helper in `src/lib/data.ts`.
+- Le pagine Astro sono in `src/pages/`; le rotte dinamiche (`[istat]`, `[context]`, `[channelKey]`) generano HTML statico via `getStaticPaths`.
+- Componenti React idratati solo quando servono (es. `TemplatePicker.tsx`) vivono in `src/components/react/`.
+- Utility condivise (tipi, path builder, geolocalizzazione) in `src/lib/`.
 
-## Code Style
+## Build, Test, and Development Commands
+- `npm run dev` avvia Astro con HMR su `localhost:4321`.
+- `npm run build` esegue `astro build` e genera `dist/`.
+- `npm run preview` serve la build statica.
+- `npm run lint` (ESLint + @typescript-eslint) e `npm run format` (Prettier) per garantire consistenza.
 
-- **Indentation**: 2 spaces (enforced by Prettier)
-- **Quotes**: Single quotes, printWidth 90, no trailing commas
-- **Imports**: React types from 'react', group by external→internal→types
-- **Types**: Explicit return types optional (TSConfig strict mode); import `type` for type-only imports
-- **Naming**: PascalCase components, camelCase functions/hooks, snake_case YAML keys
-- **Components**: Functional with TypeScript; use `PropsWithChildren` for children props
-- **Error handling**: Show `<ErrorState>` with retry callback; no console errors in production
-- **File structure**: Colocate `.test.ts` next to implementation; types in `src/types/`
-- **YAML**: snake_case keys (istat_code, primary_channel); validate with `scripts/validate-data.ts`
+## Coding Style & Naming Conventions
+- TypeScript/TSX con ESLint `plugin:@typescript-eslint/recommended`.
+- Astro files `.astro` organizzati con frontmatter minimale; preferisci `client:load` solo per componenti interattivi.
+- Tailwind CSS per lo styling; mantieni palette brand in `tailwind.config.cjs`.
+- Slug e chiavi in YAML restano `snake_case` per coerenza con i permalink.
 
-## Before Committing
+## Testing Guidelines
+- Non è configurata una suite automatica; quando aggiungi logica complessa, valuta test end-to-end o unitari in un branch separato prima del merge.
+- Verifica manuale delle rotte generate (`npm run build && npm run preview`) quando modifichi la generazione dei path o i dati YAML.
 
-Run `npm run lint && npm run test && npm run build` to ensure CI readiness.
+## Commit & Pull Request Guidelines
+- Usa Conventional Commits (`feat:`, `fix:`, `chore:`) per mantenere lo storico leggibile.
+- PR brevi con descrizione di cosa è cambiato, link ai ticket rilevanti e screenshot/recording se impatti UI.
+- Conferma di aver eseguito `npm run lint` e `npm run build` nelle note della PR.

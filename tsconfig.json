@@ -1,21 +1,10 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2020"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "baseUrl": ".",
     "jsx": "react-jsx",
-    "types": ["vite/client", "vitest"]
-  },
-  "include": ["src", "scripts", "vite.config.ts", "vitest.config.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  }
 }

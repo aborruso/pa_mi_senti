@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getMunicipalities } from "../lib/data";
+import { buildCityPath } from "../lib/paths";
+
+const municipalities = getMunicipalities().sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout title="PA Mi Senti · Seleziona la città">
+  <section class="space-y-6">
+    <header>
+      <h2 class="text-xl font-semibold text-slate-900">Seleziona la città da contattare</h2>
+      <p class="text-sm text-slate-600">
+        Ogni città ha canali tematici curati nel registro YAML. Aggiungi nuove municipalità in
+        <code class="rounded bg-slate-100 px-2 py-1 text-xs">src/data/pa.yml</code>.
+      </p>
+    </header>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {municipalities.map((municipality) => (
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold text-slate-900">{municipality.name}</h3>
+            <p class="text-xs uppercase tracking-wide text-slate-500">
+              {municipality.region} · ISTAT {municipality.istat}
+            </p>
+          </div>
+          <p class="mb-4 text-sm text-slate-600">
+            {municipality.contexts.length} temi disponibili
+            {municipality.population
+              ? ` · Popolazione ${new Intl.NumberFormat("it-IT").format(
+                  municipality.population
+                )}`
+              : ""}
+          </p>
+          <a
+            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-dark"
+            href={buildCityPath(municipality.istat)}
+          >
+            Scegli città
+            <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

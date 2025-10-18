@@ -1,7 +1,7 @@
 # Registro Evoluzione Progetto
 
-## 2024-08-10 — Bootstrap iniziale
-- Creato scaffolding Vite + React + Tailwind con routing client-side e pagine permalink `/citta/{istat}/[tema]`.
-- Aggiunte prime municipalità (Milano, Bologna, Palermo) con contesti tematici gestiti da `public/data/pa.yml`.
-- Introdotto flusso per canali Twitter con pagina di template personalizzati (`public/data/templates.yml`) e possibilità di aggiungere automaticamente link alla posizione corrente.
-- Configurato GitHub Actions (`.github/workflows/deploy.yml`) per build, lint/test e deploy automatico su GitHub Pages.
+## 2024-08-11 — Migrazione ad Astro
+- Ricreato il progetto con Astro + Tailwind + integrazione React per componenti interattivi.
+- Generazione statica di tutte le rotte (`/citta/{istat}/...`) partendo dai dati YAML in `src/data/`.
+- Pagina dei messaggi Twitter con modelli precompilati e opzione per allegare la posizione tramite geolocalizzazione client-side.
+- Aggiornato workflow GitHub Pages per la nuova toolchain Astro.
