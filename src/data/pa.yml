@@ -51,9 +51,12 @@ municipalities:
             value: "comandopoliziamunicipale@comune.palermo.it"
       - slug: "manutenzione_strade"
         name: "Manutenzione strade e marciapiedi"
-        description: "Per segnalare situazioni di urgenza relative a strade e marciapiedi."
+        description: "Per segnalare situazioni di urgenza relative a strade e marciapiedi"
         emoji: "🛣️"
         color: "bg-yellow-50"
+        helpfulLinks:
+          - label: "Ufficio infrastrutture viarie e per la mobilità"
+            url: "https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-infrastrutture-viarie-e-per-la-mobilita"
         channels:
           - type: "email"
             label: "Pronto intervento manutenzione strade"
