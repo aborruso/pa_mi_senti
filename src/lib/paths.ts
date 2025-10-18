@@ -2,6 +2,8 @@ const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
 
 const withBase = (path: string): string => `${BASE}${path}`;
 
+export const buildHomePath = (): string => withBase(`/`);
+
 export const buildCityPath = (istat: string): string => withBase(`/citta/${istat}/`);
 
 export const buildContextPath = (istat: string, contextSlug: string): string =>

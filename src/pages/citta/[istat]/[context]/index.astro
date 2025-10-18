@@ -2,7 +2,7 @@
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../../components/Breadcrumbs.astro";
 import { getMunicipalities } from "../../../../lib/data";
-import { buildCityPath, buildTemplatePath } from "../../../../lib/paths";
+import { buildCityPath, buildTemplatePath, buildHomePath } from "../../../../lib/paths";
 import type { ContextEntry, Municipality } from "../../../../lib/types";
 
 export function getStaticPaths() {
@@ -30,7 +30,7 @@ const channelTypeLabels: Record<string, string> = {
 <BaseLayout title={`PA Mi Senti · ${context.name} · ${municipality.name}`}>
   <Breadcrumbs
     items={[
-      { label: "Città", href: "/" },
+      { label: "Città", href: buildHomePath() },
       { label: municipality.name, href: buildCityPath(municipality.istat) },
       { label: context.name }
     ]}

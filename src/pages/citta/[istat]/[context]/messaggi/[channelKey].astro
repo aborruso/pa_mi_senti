@@ -3,7 +3,7 @@ import BaseLayout from "../../../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../../../components/Breadcrumbs.astro";
 import TemplatePicker from "../../../../../components/react/TemplatePicker.tsx";
 import { getMunicipalities, findTemplateGroup } from "../../../../../lib/data";
-import { buildCityPath, buildContextPath } from "../../../../../lib/paths";
+import { buildCityPath, buildContextPath, buildHomePath } from "../../../../../lib/paths";
 import type {
   ContactChannel,
   ContextEntry,
@@ -48,7 +48,7 @@ const backUrl = buildContextPath(municipality.istat, context.slug);
 <BaseLayout title={`PA Mi Senti · Messaggi ${channel.label} · ${context.name}`}>
   <Breadcrumbs
     items={[
-      { label: "Città", href: "/" },
+      { label: "Città", href: buildHomePath() },
       { label: municipality.name, href: buildCityPath(municipality.istat) },
       { label: context.name, href: backUrl },
       { label: channel.label }
