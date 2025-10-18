@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "ASTRO_BASE=/ astro dev",
     "build": "ASTRO_BASE=/pa_mi_senti/ astro build",
     "preview": "astro preview",
     "lint": "eslint .",
