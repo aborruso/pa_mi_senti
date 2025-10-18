@@ -37,17 +37,25 @@ const TemplatePicker = ({
   }, [templateGroup?.templates, baseMessage]);
 
   const handleUseTemplate = async (templateId: string, message: string) => {
-    let finalMessage = message || baseMessage;
-    if (typeof window !== 'undefined') {
-      finalMessage = await maybeAppendLocationLink(finalMessage, {
-        onRequestStart: () => setRequestingTemplateId(templateId),
-        onRequestEnd: () => setRequestingTemplateId(null)
-      });
-      // Ensure the button state resets even if the location prompt was skipped.
-      setRequestingTemplateId(null);
+    if (typeof window === 'undefined') {
+      return;
     }
+
+    const popup = window.open('about:blank', '_blank', 'noopener');
+    let finalMessage = message || baseMessage;
+
+    finalMessage = await maybeAppendLocationLink(finalMessage, {
+      onRequestStart: () => setRequestingTemplateId(templateId),
+      onRequestEnd: () => setRequestingTemplateId(null)
+    });
+
+    // In caso di cancellazione subito, assicurati che lo stato torni disponibile.
+    setRequestingTemplateId(null);
+
     const url = buildTwitterIntentUrl(finalMessage);
-    if (typeof window !== 'undefined') {
+    if (popup) {
+      popup.location.href = url;
+    } else {
       window.open(url, '_blank', 'noopener');
     }
   };

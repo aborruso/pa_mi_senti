@@ -128,11 +128,17 @@ const TwitterChannelActions = ({
       return;
     }
     if (typeof window !== 'undefined') {
+      const popup = window.open('about:blank', '_blank', 'noopener');
       const finalMessage = await maybeAppendLocationLink(baseMessage, {
         onRequestStart: () => setIsRequestingLocation(true),
         onRequestEnd: () => setIsRequestingLocation(false)
       });
-      window.open(buildTwitterIntentUrl(finalMessage), '_blank', 'noopener');
+      const url = buildTwitterIntentUrl(finalMessage);
+      if (popup) {
+        popup.location.href = url;
+      } else {
+        window.open(url, '_blank', 'noopener');
+      }
     }
   };
 
