@@ -1,154 +1,93 @@
-# PA Mi Senti (Astro)
+# PA Mi Senti
 
-Sito statico generato con Astro che aiuta i cittadini a trovare rapidamente il canale giusto per contattare la Pubblica Amministrazione in base al tema della segnalazione. Ogni rotta viene pre-renderizzata per funzionare anche con URL condivisi direttamente (es. `https://aborruso.github.io/citta/082053/...`).
+**PA Mi Senti** è uno strumento che facilita la comunicazione tra cittadini e Pubblica Amministrazione, rendendo semplice e veloce trovare il canale giusto per fare segnalazioni e richieste.
 
-## Requisiti
+> 🌐 **Sito del progetto**: [aborruso.github.io/pa_mi_senti](https://aborruso.github.io/pa_mi_senti/)
 
-- Node.js 20+
-- npm 10+
+## 🎯 Cos'è e a cosa serve
 
-## Avvio rapido
+Hai mai avuto bisogno di segnalare rifiuti abbandonati, un parcheggio selvaggio o una buca in strada? **PA Mi Senti** ti aiuta a:
+
+- 🔍 **Trovare rapidamente** il canale giusto per la tua segnalazione
+- 📝 **Usare messaggi precompilati** per Twitter/X (es. per segnalazioni alla RAP di Palermo)
+- 📍 **Aggiungere la tua posizione** al messaggio (opzionale)
+- 🔗 **Condividere link diretti** a temi specifici con amici e familiari
+
+## 🏙️ Città Supportate
+
+Al momento è disponibile:
+
+- **Palermo** — con 5 temi: Igiene urbana, Polizia Municipale, Manutenzione strade, Illuminazione pubblica, Veicoli abbandonati
+
+Vuoi aggiungere la tua città? [Apri una issue!](https://github.com/aborruso/pa_mi_senti/issues)
+
+## 💡 Filosofia del Progetto
+
+PA Mi Senti è costruito su principi semplici e chiari:
+
+- **Nessuna registrazione** — non serve creare account. Ti identifichi solo quando contatti la PA attraverso il canale che scegli (tweet, email, telefonata)
+- **Delega alle piattaforme** — vuoi allegare foto o video? Lo fai direttamente su Twitter/X, email, ecc. Il servizio non gestisce contenuti multimediali
+- **Messaggi pronti all'uso** — template precompilati per le segnalazioni più comuni (es. cestini pieni, abbandoni rifiuti, parcheggi irregolari)
+- **Geolocalizzazione opzionale** — puoi includere un link con la tua posizione per facilitare l'intervento. È sempre una tua scelta
+- **Privacy first** — zero cookie di tracciamento, zero database, zero raccolta dati. Il servizio è solo un facilitatore
+- **Open source e facile da estendere** — chiunque può contribuire modificando semplici file di configurazione
+
+## 🚀 Come Funziona
+
+1. **Scegli la tua città** (al momento solo Palermo)
+2. **Seleziona il tema** della segnalazione (es. Igiene urbana, Polizia Municipale)
+3. **Scegli il canale** di contatto (Twitter/X, telefono, email)
+4. **Usa un template** o scrivi un messaggio libero
+5. **Aggiungi la posizione** (opzionale) e invia!
+
+Tutti i messaggi social includono automaticamente l'hashtag `#PaMiSenti` per creare una community e tracciare le segnalazioni.
+
+## 🛠️ Per Sviluppatori e Contributori
+
+Vuoi contribuire al progetto? Perfetto! Ecco da dove partire:
+
+- 📖 **[TECHNICAL.md](./TECHNICAL.md)** — guida tecnica completa per sviluppatori
+- 📋 **[PRD.md](./PRD.md)** — requisiti e specifiche del prodotto
+- 🤖 **[AGENTS.md](./AGENTS.md)** — linee guida per AI agents che lavorano sul progetto
+
+### Avvio Rapido per Sviluppatori
 
 ```bash
+# Clona e installa
+git clone https://github.com/aborruso/pa_mi_senti.git
+cd pa_mi_senti
 npm install
+
+# Avvia in sviluppo
 npm run dev
+
+# Build per produzione
+npm run build
 ```
 
-Apri `http://localhost:4321` per la versione locale. Tutti i permalink (`/citta/{istat}/{tema}/...`) sono generati staticamente durante la build.
+### Aggiungi Contenuti Senza Codice
 
-## Comandi principali
+Puoi aggiungere nuove città, temi e template messaggi modificando solo due file YAML:
 
-- `npm run dev` — avvia Astro in modalità sviluppo con HMR.
-- `npm run build` — genera la versione statica in `dist/` (pronta per GitHub Pages).
-- `npm run preview` — avvia un server che serve la build prodotta.
-- `npm run lint` — esegue ESLint sui file TypeScript/TSX.
-- `npm run format` — verifica la formattazione con Prettier.
+- `src/data/pa.yml` — città, temi e canali
+- `src/data/templates.yml` — messaggi precompilati per social
 
-## Dati e modelli
+Leggi la [guida dettagliata in TECHNICAL.md](./TECHNICAL.md#come-aggiungere-un-nuovo-tema) per tutti i passaggi!
 
-I dati principali risiedono in:
+## 🔧 Stack Tecnico
 
-- `src/data/pa.yml` — elenco municipalità, contesti e canali.
-- `src/data/templates.yml` — modelli precompilati per i canali (es. Twitter/X).
+- **Astro** — sito statico ultra-veloce
+- **React** — componenti interattivi
+- **Tailwind CSS** — styling moderno
+- **TypeScript** — type safety
+- **YAML** — configurazione semplice
 
-Ogni modifica ai file YAML rigenera automaticamente le rotte statiche:
+Tutto ospitato gratuitamente su **GitHub Pages** con deploy automatico.
 
-- `/citta/{istat}/` — elenco dei temi di una città.
-- `/citta/{istat}/{tema}/` — dettagli e canali per un tema.
-- `/citta/{istat}/{tema}/messaggi/{channelKey}/` — pagina di scelta dei messaggi con possibilità di allegare la posizione corrente.
+## 📬 Contatti e Feedback
 
-## Deploy su GitHub Pages
+- 🐛 **Segnala bug o richiedi funzionalità**: [GitHub Issues](https://github.com/aborruso/pa_mi_senti/issues)
 
-Il workflow `/.github/workflows/deploy.yml` effettua build e deploy automatico a ogni push su `main`. Assicurati che le GitHub Pages siano configurate su "GitHub Actions" e che il sito sia pubblicato da `dist/`.
+---
 
-## Guida per curatori del sito
-
-### Come aggiungere un nuovo tema (contesto)
-
-Quando aggiungi un nuovo tema di segnalazione (es. "Strade", "Verde pubblico", ecc.), segui questi passi:
-
-#### 1. Aggiungi il tema in `src/data/pa.yml`
-
-Aggiungi un nuovo oggetto nell'array `contexts` della città:
-
-```yaml
-municipalities:
-  - istat: "082053"
-    name: "Palermo"
-    contexts:
-      - slug: "nome_tema"           # URL-friendly (es. "strade_buche")
-        name: "Nome visualizzato"    # Es. "Strade e buche"
-        description: "Breve descrizione del tema"
-        emoji: "🚧"                   # Emoji rappresentativa
-        color: "bg-orange-50"         # Colore di sfondo (vedi sotto)
-        helpfulLinks:                 # Link utili per questo tema (opzionale)
-          - label: "Nome link"
-            url: "https://..."
-        channels:                     # Canali di contatto
-          - type: "social"            # phone, email, form, social
-            label: "Nome canale"
-            value: "..."
-```
-
-#### 2. Scegli emoji e colore di sfondo
-
-**Emoji consigliate per tema:**
-
-- ♻️ Igiene urbana / Rifiuti
-- 🚔 Polizia / Sicurezza
-- 🚧 Strade / Lavori
-- 🌳 Verde pubblico / Parchi
-- 💡 Illuminazione pubblica
-- 🚰 Acquedotto / Fontane
-- 🚌 Trasporti pubblici
-- 🏛️ Uffici comunali
-- 📋 Documenti / Certificati
-
-**Colori di sfondo disponibili:**
-
-I colori devono essere scelti tra quelli nella "safelist" di Tailwind (`tailwind.config.cjs`):
-
-- `bg-emerald-50` — verde tenue (rifiuti, ambiente)
-- `bg-blue-50` — blu tenue (polizia, sicurezza)
-- `bg-amber-50` — ambra tenue (lavori, attenzione)
-- `bg-rose-50` — rosa tenue (segnalazioni urgenti)
-- `bg-violet-50` — viola tenue (cultura, eventi)
-- `bg-sky-50` — azzurro tenue (acqua, servizi)
-- `bg-lime-50` — lime tenue (verde pubblico)
-- `bg-orange-50` — arancio tenue (strade, manutenzione)
-
-⚠️ **Importante:** Se vuoi usare un nuovo colore, aggiungilo prima alla `safelist` in `tailwind.config.cjs`:
-
-```javascript
-safelist: [
-  'bg-emerald-50',
-  'bg-blue-50',
-  // ... aggiungi qui il tuo nuovo colore
-  'bg-teal-50'  // esempio
-],
-```
-
-#### 3. Aggiungi template messaggi (opzionale)
-
-Se il tema ha un canale social con messaggi predefiniti, aggiungi i template in `src/data/templates.yml`:
-
-```yaml
-templates:
-  - contextSlug: "nome_tema"          # Deve corrispondere allo slug nel pa.yml
-    channelKey: "citta-servizio-twitter"
-    channelType: "social"
-    templates:
-      - id: "problema_x"
-        label: "Titolo breve"
-        description: "Quando usarlo"
-        message: "Buongiorno @Account, segnalo... {indirizzo}"
-```
-
-#### 4. Testa in locale
-
-```bash
-npm run dev
-```
-
-Verifica che:
-
-- Il nuovo tema appaia nella lista con emoji e colore corretto
-- I link utili siano visibili nella pagina del tema
-- I canali funzionino correttamente
-
-#### 5. Commit e push
-
-```bash
-git add .
-git commit -m "feat: aggiungi tema [nome]"
-git push
-```
-
-GitHub Actions genererà automaticamente il sito aggiornato!
-
-### Note tecniche
-
-- Gli **emoji** vengono mostrati accanto al titolo del tema
-- I **colori di sfondo** rendono le card visivamente distinguibili
-- Gli **helpfulLinks** sono specifici per tema, non per città
-- Lo **slug** deve essere unico all'interno della stessa città
+⭐️ Se il progetto ti piace, lascia una stella su GitHub! Aiuta a far crescere la community.
