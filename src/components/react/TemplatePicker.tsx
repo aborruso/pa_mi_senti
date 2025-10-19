@@ -188,6 +188,9 @@ const TemplatePicker = ({
                   Puoi includere un link con la tua posizione attuale nel messaggio per facilitare
                   l&apos;intervento della PA.
                 </p>
+                <p className="mt-2 text-xs text-slate-500 italic">
+                  La precisione dipende dal tuo dispositivo.
+                </p>
                 <div className="mt-6 flex gap-3">
                   <button
                     className="flex-1 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
