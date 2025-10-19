@@ -1,5 +1,10 @@
 # Registro Evoluzione Progetto
 
+## 2024-08-15
+
+- creazione Pagina Info
+- aggiunto opengraph metadata
+
 ## 2024-08-11 — Migrazione ad Astro
 
 - Ricreato il progetto con Astro + Tailwind + integrazione React per componenti interattivi.
