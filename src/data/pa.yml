@@ -94,7 +94,7 @@ municipalities:
             notes: "Inviare segnalazioni con foto e dettagli toponomastici."
       - slug: "acqua_e_fognature"
         name: "Acqua e fognature"
-        description: "Per segnalare problemi legati al servizio idrico: fuoriuscite d'acqua, alterazioni della potabilità, tombini occlusi, guasti a condotte fognarie, scavi e pericoli."
+        description: "Per segnalare problemi legati al servizio idrico: fuoriuscite d'acqua, tombini occlusi, guasti a condotte fognarie, scavi e pericoli."
         emoji: "🚰"
         color: "bg-sky-50"
         helpfulLinks:
