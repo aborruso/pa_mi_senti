@@ -8,3 +8,5 @@ Thumbs.db
 !.env.example
 .vercel/
 .netlify/
+.genkit/traces_idx/genkit.metadata
+nanobanana-output/
