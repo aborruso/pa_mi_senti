@@ -10,16 +10,12 @@ const municipalities = getMunicipalities().sort((a, b) => a.name.localeCompare(b
   <section class="space-y-6">
     <header>
       <h2 class="text-xl font-semibold text-slate-900">Seleziona la città da contattare</h2>
-      <p class="text-sm text-slate-600">
-        Ogni città ha canali tematici curati nel registro YAML. Aggiungi nuove municipalità in
-        <code class="rounded bg-slate-100 px-2 py-1 text-xs">src/data/pa.yml</code>.
-      </p>
     </header>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
       {municipalities.map((municipality) => (
         <article class="h-full" role="listitem">
-          <a 
-            href={buildCityPath(municipality.istat)} 
+          <a
+            href={buildCityPath(municipality.istat)}
             class="group block h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50 focus-visible:rounded-2xl"
             aria-label={`Seleziona ${municipality.name} - ${municipality.contexts.length} temi disponibili`}
           >
