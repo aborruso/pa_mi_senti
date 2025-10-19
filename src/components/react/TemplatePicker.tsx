@@ -22,6 +22,7 @@ const TemplatePicker = ({
 }: TemplatePickerProps) => {
   const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
   const [showLocationDialog, setShowLocationDialog] = useState(false);
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(null);
   const handle = useMemo(() => extractTwitterHandle(channelValue), [channelValue]);
   const baseMessage = handle ? `${handle} ` : "";
@@ -47,8 +48,6 @@ const TemplatePicker = ({
   };
 
   const proceedWithMessage = async (includeLocation: boolean) => {
-    setShowLocationDialog(false);
-
     if (!pendingTemplate) {
       return;
     }
@@ -65,6 +64,7 @@ const TemplatePicker = ({
 
     try {
       if (includeLocation) {
+        setIsLoadingLocation(true);
         finalMessage = await maybeAppendLocationLink(initialMessage, {
           confirmMessage: "", // Non mostrare il confirm, abbiamo già chiesto
           onRequestStart: () => setActiveTemplate(pendingTemplate.id),
@@ -74,6 +74,8 @@ const TemplatePicker = ({
     } catch (error) {
       console.error("Errore durante il recupero della posizione:", error);
     } finally {
+      setIsLoadingLocation(false);
+      setShowLocationDialog(false);
       setActiveTemplate(null);
       setPendingTemplate(null);
     }
@@ -155,37 +157,55 @@ const TemplatePicker = ({
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
           onClick={() => {
-            setShowLocationDialog(false);
-            setPendingTemplate(null);
+            if (!isLoadingLocation) {
+              setShowLocationDialog(false);
+              setPendingTemplate(null);
+            }
           }}
         >
           <div
             className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-slate-900">
-              Vuoi aggiungere un link con la tua posizione?
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Puoi includere un link con la tua posizione attuale nel messaggio per facilitare
-              l&apos;intervento della PA.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <button
-                className="flex-1 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
-                type="button"
-                onClick={() => proceedWithMessage(true)}
-              >
-                Sì, aggiungi posizione
-              </button>
-              <button
-                className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                type="button"
-                onClick={() => proceedWithMessage(false)}
-              >
-                No, grazie
-              </button>
-            </div>
+            {isLoadingLocation ? (
+              <>
+                <div className="flex items-center gap-3">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-brand border-t-transparent"></div>
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    Recupero posizione...
+                  </h3>
+                </div>
+                <p className="mt-2 text-sm text-slate-600">
+                  Attendi mentre recuperiamo le coordinate GPS. Potrebbero essere necessari alcuni secondi.
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  Vuoi aggiungere un link con la tua posizione?
+                </h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  Puoi includere un link con la tua posizione attuale nel messaggio per facilitare
+                  l&apos;intervento della PA.
+                </p>
+                <div className="mt-6 flex gap-3">
+                  <button
+                    className="flex-1 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                    type="button"
+                    onClick={() => proceedWithMessage(true)}
+                  >
+                    Sì, aggiungi posizione
+                  </button>
+                  <button
+                    className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    type="button"
+                    onClick={() => proceedWithMessage(false)}
+                  >
+                    No, grazie
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
