@@ -17,7 +17,7 @@ Per i canali _social_ come Twitter/X, il servizio mette a disposizione messaggi 
 
 ### Filosofia del progetto
 
-PA Mi Senti è costruito su principi chiari:
+PA Mi Senti è costruito su questi principi:
 
 - **Nessuna registrazione**: non devi creare account o autenticarti. Ti identifichi solo quando contatti la PA attraverso il canale che scegli (tweet dal tuo account, email, telefonata).
 - **Delega alle piattaforme**: vuoi allegare foto, video o documenti? Lo fai direttamente nella piattaforma che usi (Twitter/X, email, ecc.). Il servizio non gestisce contenuti multimediali.
