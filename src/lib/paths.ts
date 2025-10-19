@@ -14,3 +14,5 @@ export const buildTemplatePath = (
   contextSlug: string,
   channelKey: string
 ): string => withBase(`/citta/${istat}/${contextSlug}/messaggi/${channelKey}/`);
+
+export const buildInfoPath = (): string => withBase(`/info/`);

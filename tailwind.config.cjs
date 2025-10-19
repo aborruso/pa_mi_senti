@@ -2,6 +2,8 @@
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,ts,tsx}"],
   safelist: [
+    'prose',
+    'prose-sm',
     'bg-emerald-50',
     'bg-blue-50',
     'bg-amber-50',
@@ -24,5 +26,5 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [require('@tailwindcss/typography')]
 };

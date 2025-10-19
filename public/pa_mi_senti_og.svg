@@ -1,0 +1,41 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f8fafc"/>
+
+  <!-- Brand color stripe -->
+  <rect width="1200" height="10" fill="#0b7285"/>
+
+  <!-- Content area -->
+  <g transform="translate(60, 80)">
+    <!-- Logo text -->
+    <text x="0" y="0" font-size="24" font-weight="600" fill="#64748b" letter-spacing="2">
+      PA MI SENTI
+    </text>
+
+    <!-- Main title -->
+    <text x="0" y="80" font-size="64" font-weight="700" fill="#0f172a" line-height="1.2">
+      Contatta la tua PA
+    </text>
+    <text x="0" y="160" font-size="64" font-weight="700" fill="#0b7285">
+      in pochi click
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="240" font-size="28" fill="#475569" font-weight="400">
+      Trova il canale giusto senza cercare ovunque
+    </text>
+
+    <!-- Features -->
+    <g transform="translate(0, 320)">
+      <text x="0" y="0" font-size="18" fill="#1e293b" font-weight="600">✓ Scegli la città</text>
+      <text x="400" y="0" font-size="18" fill="#1e293b" font-weight="600">✓ Seleziona il tema</text>
+      <text x="800" y="0" font-size="18" fill="#1e293b" font-weight="600">✓ Contatta subito</text>
+    </g>
+  </g>
+
+  <!-- Footer area with brand color -->
+  <rect y="540" width="1200" height="90" fill="#0b7285"/>
+  <text x="600" y="595" font-size="20" fill="white" font-weight="500" text-anchor="middle">
+    Servizio per il Comune di Palermo
+  </text>
+</svg>
