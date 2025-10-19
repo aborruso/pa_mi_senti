@@ -33,33 +33,36 @@ const channelTypeLabels: Record<string, string> = {
         Ogni tema offre i canali consigliati per velocizzare la tua richiesta.
       </p>
     </header>
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class="grid gap-4 sm:grid-cols-2" role="list">
       {municipality.contexts.map((context) => (
-        <a
-          href={buildContextPath(municipality.istat, context.slug)}
-          class="group block h-full cursor-pointer focus:outline-none"
-        >
-          <div
-            class={`flex h-full flex-col rounded-2xl border border-slate-200 p-5 shadow-sm transition group-hover:shadow-lg group-hover:border-brand group-focus-visible:border-brand ${context.color || 'bg-white'}`}
+        <article class="h-full" role="listitem">
+          <a
+            href={buildContextPath(municipality.istat, context.slug)}
+            class="group block h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50 focus-visible:rounded-2xl"
+            aria-label={`Seleziona il tema ${context.name} - ${context.channels.length} canali disponibili`}
           >
-            <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-900">
-              {context.emoji && <span class="text-2xl" aria-hidden="true">{context.emoji}</span>}
-              <span>{context.name}</span>
-            </h3>
-            <p class="mt-2 text-sm text-slate-600">{context.description}</p>
-            <div class="mt-4 flex flex-wrap gap-2">
-              {context.channels.map((channel) => (
-                <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand-dark">
-                  {channelTypeLabels[channel.type] || channel.type}
-                </span>
-              ))}
+            <div
+              class={`flex h-full flex-col rounded-2xl border border-slate-200 p-5 shadow-sm transition group-hover:shadow-lg group-hover:border-brand ${context.color || 'bg-white'}`}
+            >
+              <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-900">
+                {context.emoji && <span class="text-2xl" role="img" aria-label={`Icona ${context.name}`}>{context.emoji}</span>}
+                <span>{context.name}</span>
+              </h3>
+              <p class="mt-2 text-sm text-slate-600">{context.description}</p>
+              <div class="mt-4 flex flex-wrap gap-2" role="list" aria-label="Tipi di canale disponibili">
+                {context.channels.map((channel) => (
+                  <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand-dark" role="listitem">
+                    {channelTypeLabels[channel.type] || channel.type}
+                  </span>
+                ))}
+              </div>
+              <div class="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-medium text-brand">
+                <span>Vedi canali</span>
+                <span aria-hidden="true">→</span>
+              </div>
             </div>
-            <div class="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-medium text-brand">
-              <span>Vedi canali</span>
-              <span aria-hidden="true">→</span>
-            </div>
-          </div>
-        </a>
+          </a>
+        </article>
       ))}
     </div>
   </section>

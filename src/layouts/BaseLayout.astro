@@ -66,31 +66,41 @@ const ogImageUrl = `${SITE_URL}${BASE_URL}/pa_mi_senti_og.png`;
     <meta name="theme-color" content="#0b7285" />
   </head>
   <body>
+    <!-- Skip to main content link for keyboard/screen reader users -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none focus:ring-4 focus:ring-brand/50"
+    >
+      Salta al contenuto principale
+    </a>
     <div class="min-h-screen bg-slate-50">
       <header class="border-b border-slate-200 bg-white">
         <div class="mx-auto flex max-w-5xl flex-col gap-1 px-4 py-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <a href={buildHomePath()} class="inline-block transition hover:opacity-70">
+            <a href={buildHomePath()} class="inline-block transition hover:opacity-70 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50 focus-visible:rounded">
               <p class="text-xs uppercase tracking-wide text-slate-500">PA MI SENTI</p>
               <h1 class="text-2xl font-semibold text-slate-900">
                 Contatta la tua PA in pochi click
               </h1>
             </a>
           </div>
-          <div class="flex flex-col items-end gap-4">
-            <p class="text-sm text-slate-500">
-              Scegli la città, il tema e ottieni il canale migliore senza cercare ovunque.
-            </p>
-            <a
-              href={buildInfoPath()}
-              class="rounded-lg border border-slate-300 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100"
-            >
-              ℹ️ Info
-            </a>
-          </div>
+          <nav aria-label="Menu principale">
+            <div class="flex flex-col items-end gap-4">
+              <p class="text-sm text-slate-500">
+                Scegli la città, il tema e ottieni il canale migliore senza cercare ovunque.
+              </p>
+              <a
+                href={buildInfoPath()}
+                class="rounded-lg border border-slate-300 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
+                aria-label="Informazioni sul progetto PA Mi Senti"
+              >
+                ℹ️ Info
+              </a>
+            </div>
+          </nav>
         </div>
       </header>
-      <main class="mx-auto max-w-5xl px-4 py-8">
+      <main id="main-content" class="mx-auto max-w-5xl px-4 py-8">
         <slot />
       </main>
       <footer class="border-t border-slate-200 bg-white">

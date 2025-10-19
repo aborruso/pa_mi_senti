@@ -49,6 +49,20 @@ Vuoi contribuire al progetto? Perfetto! Ecco da dove partire:
 - 📖 **[TECHNICAL.md](./TECHNICAL.md)** — guida tecnica completa per sviluppatori
 - 📋 **[PRD.md](./PRD.md)** — requisiti e specifiche del prodotto
 - 🤖 **[AGENTS.md](./AGENTS.md)** — linee guida per AI agents che lavorano sul progetto
+- ♿ **[ACCESSIBILITY.md](./ACCESSIBILITY.md)** — migliorie di accessibilità implementate
+
+### Accessibilità
+
+Il progetto implementa alcune buone practice di accessibilità:
+
+- ✅ Navigazione completa da tastiera
+- ✅ Supporto screen reader con ARIA labels
+- ✅ Focus visibili e consistenti
+- ✅ Dialog modali accessibili con focus trap
+- ✅ Skip navigation link
+- ✅ Struttura semantica HTML5
+
+Leggi [ACCESSIBILITY.md](./ACCESSIBILITY.md) per i dettagli completi.
 
 ### Avvio Rapido per Sviluppatori
 

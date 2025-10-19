@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { buildTwitterIntentUrl, extractTwitterHandle } from "../../lib/social";
 import { maybeAppendLocationLink } from "../../lib/location";
 import type { MessageTemplateItem } from "../../lib/types";
@@ -24,6 +24,9 @@ const TemplatePicker = ({
   const [showLocationDialog, setShowLocationDialog] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const yesButtonRef = useRef<HTMLButtonElement>(null);
+  
   const handle = useMemo(() => extractTwitterHandle(channelValue), [channelValue]);
   const baseMessage = handle ? `${handle} ` : "";
 
@@ -37,6 +40,41 @@ const TemplatePicker = ({
     };
     return [...defined, custom];
   }, [templates, baseMessage]);
+
+  // Focus trap and ESC key handling for modal dialog
+  useEffect(() => {
+    if (!showLocationDialog) return;
+
+    // Focus the first button when dialog opens
+    yesButtonRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !isLoadingLocation) {
+        setShowLocationDialog(false);
+        setPendingTemplate(null);
+      }
+
+      // Trap focus within dialog
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusableElements = dialogRef.current.querySelectorAll(
+          'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showLocationDialog, isLoadingLocation]);
 
   const handleUseTemplate = async (template: MessageTemplateItem) => {
     if (typeof window === "undefined") {
@@ -104,11 +142,12 @@ const TemplatePicker = ({
           </div>
         </header>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2" role="list" aria-label="Template messaggi disponibili">
           {availableTemplates.map((template) => (
             <article
               key={template.id}
               className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+              role="listitem"
             >
               <div>
                 <h3 className="text-lg font-semibold text-slate-900">{template.label}</h3>
@@ -122,10 +161,12 @@ const TemplatePicker = ({
                 ) : null}
               </div>
               <button
-                className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-brand/60"
+                className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50 disabled:cursor-not-allowed disabled:bg-brand/60"
                 type="button"
                 onClick={() => handleUseTemplate(template)}
                 disabled={activeTemplate === template.id}
+                aria-busy={activeTemplate === template.id}
+                aria-label={`Usa il messaggio: ${template.label}`}
               >
                 {activeTemplate === template.id ? "Recupero posizione…" : "Usa questo messaggio"}
                 <span aria-hidden="true">↗</span>
@@ -136,26 +177,31 @@ const TemplatePicker = ({
 
         <div className="flex justify-between">
           <a
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
             href={backUrl}
+            aria-label="Torna alla lista dei canali"
           >
-            ← Torna ai canali
+            <span aria-hidden="true">←</span> Torna ai canali
           </a>
           <a
-            className="text-sm text-brand underline-offset-2 hover:underline"
+            className="text-sm text-brand underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
             href={channelValue}
             target="_blank"
             rel="noreferrer"
+            aria-label="Apri il profilo su Twitter/X (si apre in una nuova scheda)"
           >
             Apri il profilo su Twitter/X
           </a>
         </div>
       </section>
 
-      {/* Dialogo personalizzato per la geolocalizzazione */}
+      {/* Dialogo accessibile per la geolocalizzazione */}
       {showLocationDialog && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="location-dialog-title"
           onClick={() => {
             if (!isLoadingLocation) {
               setShowLocationDialog(false);
@@ -164,14 +210,19 @@ const TemplatePicker = ({
           }}
         >
           <div
+            ref={dialogRef}
             className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             {isLoadingLocation ? (
               <>
                 <div className="flex items-center gap-3">
-                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-brand border-t-transparent"></div>
-                  <h3 className="text-lg font-semibold text-slate-900">
+                  <div 
+                    className="h-6 w-6 animate-spin rounded-full border-4 border-brand border-t-transparent"
+                    role="status"
+                    aria-label="Caricamento in corso"
+                  ></div>
+                  <h3 id="location-dialog-title" className="text-lg font-semibold text-slate-900">
                     Recupero posizione...
                   </h3>
                 </div>
@@ -181,7 +232,7 @@ const TemplatePicker = ({
               </>
             ) : (
               <>
-                <h3 className="text-lg font-semibold text-slate-900">
+                <h3 id="location-dialog-title" className="text-lg font-semibold text-slate-900">
                   Vuoi aggiungere un link con la tua posizione?
                 </h3>
                 <p className="mt-2 text-sm text-slate-600">
@@ -193,14 +244,15 @@ const TemplatePicker = ({
                 </p>
                 <div className="mt-6 flex gap-3">
                   <button
-                    className="flex-1 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                    ref={yesButtonRef}
+                    className="flex-1 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
                     type="button"
                     onClick={() => proceedWithMessage(true)}
                   >
                     Sì, aggiungi posizione
                   </button>
                   <button
-                    className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"
                     type="button"
                     onClick={() => proceedWithMessage(false)}
                   >
