@@ -50,10 +50,15 @@ export const maybeAppendLocationLink = async (
     return message;
   }
 
-  const wantsLocation = window.confirm(
-    options?.confirmMessage ??
-      "Vuoi aggiungere un link con la tua posizione attuale al messaggio?"
-  );
+  // Se confirmMessage è stringa vuota, non mostrare il dialogo
+  const shouldAskConfirmation = options?.confirmMessage !== "";
+
+  const wantsLocation = shouldAskConfirmation
+    ? window.confirm(
+        options?.confirmMessage ??
+          "Vuoi aggiungere un link con la tua posizione attuale al messaggio?"
+      )
+    : true;
 
   if (!wantsLocation) {
     return message;
