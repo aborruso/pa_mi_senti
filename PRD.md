@@ -14,6 +14,16 @@ Non richiede autenticazione, perché ognuno poi, in base al canale (email, segna
   - verde pubblico
   - strade
 
+## Filosofia del progetto
+
+I principi chiave che guidano lo sviluppo:
+
+- **Nessuna registrazione o autenticazione**: il sistema non richiede account. L'utente si identifica solo quando contatta la PA attraverso il canale scelto (tweet, email, telefonata, ecc.).
+- **Delega ai canali esistenti**: funzionalità come allegare foto, video o altri documenti sono delegate alle piattaforme utilizzate (Twitter/X, client email, ecc.). Il servizio si concentra solo sul facilitare l'accesso ai canali.
+- **Messaggi precompilati**: disponibilità di template pronti per le segnalazioni più comuni (es. a Palermo la RAP risponde ai tweet, quindi è utile avere messaggi precompilati per cestini pieni, abbandoni, mancato spazzamento).
+- **Geolocalizzazione opzionale**: per i canali social come Twitter/X, possibilità di raccogliere la posizione dell'utente (previo consenso) e includerla nel messaggio per facilitare l'intervento.
+- **Facile estensibilità**: aggiungere nuove città, temi e canali deve essere semplice come modificare un file YAML, senza toccare il codice.
+
 ## Requisiti
 
 - Deve poter girare su GitHub Pages, quindi HTML statico generato in build (stack basato su Astro JS).
