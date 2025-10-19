@@ -80,6 +80,9 @@ municipalities:
         description: "Per segnalare veicoli in stato di abbandono sul territorio del Comune di Palermo."
         emoji: "🚗"
         color: "bg-red-50"
+        helpfulLinks:
+          - label: "Unità Organizzativa Controlli ambientali e Veicoli abbandonati"
+            url: "https://www.comune.palermo.it/amministrazione/unita_organizzativa/uo-controlli-ambientali-e-veicoli-abbandonati/"
         channels:
           - type: "phone"
             label: "Servizio prevenzione e contrasto"
