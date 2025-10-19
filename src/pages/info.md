@@ -29,6 +29,16 @@ PA Mi Senti è costruito su questi principi:
 
 PA Mi Senti non raccoglie dati personali. Non ci sono registrazioni, cookie di tracciamento o database. La localizzazione è facoltativa e richiede il tuo consenso esplicito ogni volta. I dati che condividi con la PA dipendono dal canale che usi (Twitter/X, email, telefono) e sono gestiti da quelle piattaforme, non da noi.
 
+### Tecnologia e hosting
+
+**PA Mi Senti** è un **sito statico** costruito con [Astro](https://astro.build), un framework moderno per la generazione di siti web veloci. Il codice è open source e disponibile su [GitHub](https://github.com/aborruso/pa_mi_senti), mentre il sito è ospitato gratuitamente su [GitHub Pages](https://pages.github.com).
+
+Questa scelta tecnologica garantisce:
+
+- **Velocità**: nessun server da interrogare, tutto è pre-generato
+- **Affidabilità**: hosting robusto e gratuito
+- **Trasparenza**: codice pubblico, modificabile da chiunque
+
 ### Contatti e feedback
 
 Hai suggerimenti per migliorare il servizio? Apri [una issue qui](https://github.com/aborruso/pa_mi_senti/issues).
