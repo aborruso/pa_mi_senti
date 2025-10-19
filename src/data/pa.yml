@@ -85,7 +85,7 @@ municipalities:
             url: "https://www.comune.palermo.it/amministrazione/unita_organizzativa/uo-controlli-ambientali-e-veicoli-abbandonati/"
         channels:
           - type: "phone"
-            label: "Servizio prevenzione e contrasto"
+            label: "Servizio prevenzione e contrasto Comune di Palermo"
             value: "091/6954361"
             notes: "Telefono per segnalare veicoli in stato di abbandono."
           - type: "email"
@@ -102,10 +102,10 @@ municipalities:
             url: "https://www.amapspa.it/"
         channels:
           - type: "phone"
-            label: "Numero verde"
+            label: "Numero verde AMAP"
             value: "800 050 911"
             notes: "Numero verde per segnalazioni 24/7"
           - type: "form"
-            label: "Modulo online"
+            label: "Modulo online AMAP"
             value: "https://www.amapspa.it/it/segnalazioni/"
             notes: "Compila il modulo online per una segnalazione strutturata"
