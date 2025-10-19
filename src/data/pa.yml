@@ -104,7 +104,6 @@ municipalities:
           - type: "phone"
             label: "Numero verde"
             value: "800 050 911"
-            notes: "Numero verde per segnalazioni 24/7"
           - type: "form"
             label: "Modulo online"
             value: "https://www.amapspa.it/it/segnalazioni/"
