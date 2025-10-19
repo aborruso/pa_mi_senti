@@ -53,7 +53,13 @@ const TemplatePicker = ({
       return;
     }
 
-    const initialMessage = pendingTemplate.message || baseMessage;
+    let initialMessage = pendingTemplate.message || baseMessage;
+
+    // Aggiungi l'hashtag #PaMiSenti solo se non è il template custom (messaggio libero)
+    if (pendingTemplate.id !== "custom" && initialMessage.trim()) {
+      initialMessage = `${initialMessage.trim()} #PaMiSenti`;
+    }
+
     setActiveTemplate(pendingTemplate.id);
     let finalMessage = initialMessage;
 
