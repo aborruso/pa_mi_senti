@@ -8,6 +8,13 @@ interface Props {
 }
 
 const { title = "PA Mi Senti", description } = Astro.props as Props;
+
+// Costruisci URL completi dinamici per meta tag social
+const BASE_URL = import.meta.env.BASE_URL.replace(/\/$/, "");
+const SITE_URL = import.meta.env.SITE || "https://aborruso.github.io";
+// Astro.url.pathname include già il base path in produzione, quindi usiamo direttamente SITE_URL + pathname
+const currentPageUrl = `${SITE_URL}${Astro.url.pathname}`;
+const ogImageUrl = `${SITE_URL}${BASE_URL}/pa_mi_senti_og.png`;
 ---
 
 <!doctype html>
@@ -28,9 +35,9 @@ const { title = "PA Mi Senti", description } = Astro.props as Props;
       content={description ?? "Trova il canale giusto per contattare la tua Pubblica Amministrazione."}
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://aborruso.github.io/pa_mi_senti/" />
-    <meta property="og:image" content="https://aborruso.github.io/pa_mi_senti/pa_mi_senti_og.png" />
-    <meta property="og:image:secure_url" content="https://aborruso.github.io/pa_mi_senti/pa_mi_senti_og.png" />
+    <meta property="og:url" content={currentPageUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:secure_url" content={ogImageUrl} />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -43,17 +50,17 @@ const { title = "PA Mi Senti", description } = Astro.props as Props;
       name="twitter:description"
       content={description ?? "Trova il canale giusto per contattare la tua Pubblica Amministrazione."}
     />
-    <meta name="twitter:image" content="https://aborruso.github.io/pa_mi_senti/pa_mi_senti_og.png" />
+    <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:site" content="@aborruso" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/pa_mi_senti/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${BASE_URL}/favicon.svg`} />
 
     <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="/pa_mi_senti/icon-192.svg" />
+    <link rel="apple-touch-icon" href={`${BASE_URL}/icon-192.svg`} />
 
     <!-- Web App Manifest -->
-    <link rel="manifest" href="/pa_mi_senti/manifest.json" />
+    <link rel="manifest" href={`${BASE_URL}/manifest.json`} />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#0b7285" />
