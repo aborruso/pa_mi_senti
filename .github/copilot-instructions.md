@@ -20,7 +20,7 @@ import { buildContextPath } from "../../lib/paths";
 - **`src/data/pa.yml`**: Single source of truth for cities, themes (contexts), channels
 - **`src/data/templates.yml`**: Pre-written social messages (e.g., RAP Palermo waste reports)
 - **`src/lib/data.ts`**: Loads YAML and generates unique channel keys
-- **`src/components/react/TemplatePicker.tsx`**: 
+- **`src/components/react/TemplatePicker.tsx`**:
   - Shows custom dialog for geolocation consent (NOT browser native `confirm()`)
   - Auto-appends `#PaMiSenti` hashtag to template messages (NOT custom messages)
   - Builds Twitter/X intent URLs with optional Google Maps link
