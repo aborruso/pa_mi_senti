@@ -102,6 +102,3 @@ Tutto ospitato gratuitamente su **GitHub Pages** con deploy automatico.
 
 - 🐛 **Segnala bug o richiedi funzionalità**: [GitHub Issues](https://github.com/aborruso/pa_mi_senti/issues)
 
----
-
-⭐️ Se il progetto ti piace, lascia una stella su GitHub! Aiuta a far crescere la community.
