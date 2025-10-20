@@ -1,13 +1,14 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import { buildTwitterIntentUrl, extractTwitterHandle } from "../../lib/social";
 import { maybeAppendLocationLink } from "../../lib/location";
-import type { MessageTemplateItem } from "../../lib/types";
+import type { MessageTemplateItem, ChannelType } from "../../lib/types";
 
 interface TemplatePickerProps {
   municipalityName: string;
   contextName: string;
   channelLabel: string;
   channelValue: string;
+  channelType: ChannelType;
   templates: MessageTemplateItem[];
   backUrl: string;
 }
@@ -17,6 +18,7 @@ const TemplatePicker = ({
   contextName,
   channelLabel,
   channelValue,
+  channelType,
   templates,
   backUrl
 }: TemplatePickerProps) => {
@@ -26,12 +28,49 @@ const TemplatePicker = ({
   const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const yesButtonRef = useRef<HTMLButtonElement>(null);
-  
-  const handle = useMemo(() => extractTwitterHandle(channelValue), [channelValue]);
+
+  const isSocialChannel = channelType === "social";
+  const isEmailChannel = channelType === "email";
+
+  const buildMailtoUrl = (template: MessageTemplateItem, messageOverride?: string): string => {
+    const subjectValue = template.subject?.trim() || `Segnalazione ${contextName}`;
+    const bodyValue = (messageOverride ?? template.message ?? "").trim();
+    const encodedSubject = encodeURIComponent(subjectValue);
+    const encodedBody = encodeURIComponent(bodyValue).replace(/%0A/g, "%0D%0A");
+    const queryParams = [`subject=${encodedSubject}`];
+    if (bodyValue) {
+      queryParams.push(`body=${encodedBody}`);
+    }
+    return `mailto:${channelValue}?${queryParams.join("&")}`;
+  };
+
+  const triggerMailto = (url: string) => {
+    const tempLink = document.createElement("a");
+    tempLink.href = url;
+    tempLink.target = "_blank";
+    tempLink.style.display = "none";
+    tempLink.rel = "noopener";
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    document.body.removeChild(tempLink);
+  };
+
+  const handle = useMemo(() => {
+    if (!isSocialChannel) {
+      return null;
+    }
+    return extractTwitterHandle(channelValue);
+  }, [channelValue, isSocialChannel]);
+
   const baseMessage = handle ? `${handle} ` : "";
 
   const availableTemplates = useMemo(() => {
     const defined = templates ?? [];
+
+    if (!isSocialChannel) {
+      return defined;
+    }
+
     const custom: MessageTemplateItem = {
       id: "custom",
       label: "Scrivi un messaggio libero",
@@ -39,7 +78,7 @@ const TemplatePicker = ({
       message: baseMessage
     };
     return [...defined, custom];
-  }, [templates, baseMessage]);
+  }, [templates, baseMessage, isSocialChannel]);
 
   // Focus trap and ESC key handling for modal dialog
   useEffect(() => {
@@ -81,6 +120,12 @@ const TemplatePicker = ({
       return;
     }
 
+    if (isEmailChannel) {
+      setPendingTemplate(template);
+      setShowLocationDialog(true);
+      return;
+    }
+
     setPendingTemplate(template);
     setShowLocationDialog(true);
   };
@@ -93,7 +138,11 @@ const TemplatePicker = ({
     let initialMessage = pendingTemplate.message || baseMessage;
 
     // Aggiungi l'hashtag #PaMiSenti solo se non è il template custom (messaggio libero)
-    if (pendingTemplate.id !== "custom" && initialMessage.trim()) {
+    if (
+      isSocialChannel &&
+      pendingTemplate.id !== "custom" &&
+      initialMessage.trim()
+    ) {
       initialMessage = `${initialMessage.trim()} #PaMiSenti`;
     }
 
@@ -108,6 +157,14 @@ const TemplatePicker = ({
           onRequestStart: () => setActiveTemplate(pendingTemplate.id),
           onRequestEnd: () => setActiveTemplate(null)
         });
+
+        if (isEmailChannel && finalMessage.includes("https://www.google.com/maps/place")) {
+          // Assicura che il link sia separato dal corpo per leggibilità nelle email
+          finalMessage = finalMessage.replace(
+            /\s(https:\/\/www\.google\.com\/maps\/place\/.+)$/i,
+            "\n\n$1"
+          );
+        }
       }
     } catch (error) {
       console.error("Errore durante il recupero della posizione:", error);
@@ -118,8 +175,13 @@ const TemplatePicker = ({
       setPendingTemplate(null);
     }
 
-    const finalUrl = buildTwitterIntentUrl(finalMessage);
-    window.open(finalUrl, "_blank", "noopener");
+    if (isEmailChannel) {
+      const mailtoUrl = buildMailtoUrl(pendingTemplate, finalMessage);
+      triggerMailto(mailtoUrl);
+    } else if (isSocialChannel) {
+      const finalUrl = buildTwitterIntentUrl(finalMessage);
+      window.open(finalUrl, "_blank", "noopener");
+    }
   };
 
   return (
@@ -129,8 +191,9 @@ const TemplatePicker = ({
           <p className="text-xs uppercase tracking-wide text-brand">Messaggi precompilati</p>
           <h2 className="text-2xl font-semibold text-slate-900">{channelLabel}</h2>
           <p className="mt-2 text-sm text-slate-600">
-            Scegli uno dei modelli rapidi oppure apri Twitter/X con un messaggio libero. Potrai sempre
-            modificare il testo prima dell&apos;invio.
+            {isEmailChannel
+              ? "Scegli uno dei modelli e invia l'email con oggetto e testo già compilati. Potrai sempre modificare i dettagli nel tuo client di posta."
+              : "Scegli uno dei modelli rapidi oppure apri Twitter/X con un messaggio libero. Potrai sempre modificare il testo prima dell'invio."}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
             <span>
@@ -154,6 +217,26 @@ const TemplatePicker = ({
                 {template.description ? (
                   <p className="mt-2 text-sm text-slate-600">{template.description}</p>
                 ) : null}
+                {isEmailChannel && template.subject ? (
+                  <p className="mt-3 text-sm font-medium text-slate-700">
+                    Oggetto: <span className="font-semibold text-slate-900">{template.subject}</span>
+                  </p>
+                ) : null}
+                {isEmailChannel ? (
+                  <div className="mt-3 space-y-2 text-sm text-slate-600">
+                    <p className="font-medium text-slate-700">Destinatari:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {channelValue.split(",").map((recipient) => (
+                        <span
+                          key={recipient.trim()}
+                          className="inline-flex items-center rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700"
+                        >
+                          {recipient.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 {template.message ? (
                   <blockquote className="mt-4 rounded-lg border border-brand/20 bg-brand/5 p-3 text-sm text-brand-dark">
                     {template.message}
@@ -168,7 +251,11 @@ const TemplatePicker = ({
                 aria-busy={activeTemplate === template.id}
                 aria-label={`Usa il messaggio: ${template.label}`}
               >
-                {activeTemplate === template.id ? "Recupero posizione…" : "Usa questo messaggio"}
+                {isEmailChannel
+                  ? "Scrivi email"
+                  : activeTemplate === template.id
+                    ? "Recupero posizione…"
+                    : "Usa questo messaggio"}
                 <span aria-hidden="true">↗</span>
               </button>
             </article>
@@ -183,15 +270,26 @@ const TemplatePicker = ({
           >
             <span aria-hidden="true">←</span> Torna ai canali
           </a>
-          <a
-            className="text-sm text-brand underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
-            href={channelValue}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Apri il profilo su Twitter/X (si apre in una nuova scheda)"
-          >
-            Apri il profilo su Twitter/X
-          </a>
+          {isSocialChannel ? (
+            <a
+              className="text-sm text-brand underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
+              href={channelValue}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Apri il profilo su Twitter/X (si apre in una nuova scheda)"
+            >
+              Apri il profilo su Twitter/X
+            </a>
+          ) : null}
+          {isEmailChannel ? (
+            <a
+              className="text-sm text-brand underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
+              href={`mailto:${channelValue}`}
+              aria-label="Scrivi una email ai destinatari indicati"
+            >
+              Scrivi una email manualmente
+            </a>
+          ) : null}
         </div>
       </section>
 
@@ -217,7 +315,7 @@ const TemplatePicker = ({
             {isLoadingLocation ? (
               <>
                 <div className="flex items-center gap-3">
-                  <div 
+                  <div
                     className="h-6 w-6 animate-spin rounded-full border-4 border-brand border-t-transparent"
                     role="status"
                     aria-label="Caricamento in corso"
@@ -236,7 +334,7 @@ const TemplatePicker = ({
                   Vuoi aggiungere un link con la tua posizione?
                 </h3>
                 <p className="mt-2 text-sm text-slate-600">
-                  Puoi includere un link con la tua posizione attuale nel messaggio per facilitare
+                  Puoi includere un link con la tua posizione attuale {isEmailChannel ? "nell'email" : "nel messaggio"} per facilitare
                   l&apos;intervento della PA.
                 </p>
                 <p className="mt-2 text-xs text-slate-500 italic">

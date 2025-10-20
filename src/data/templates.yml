@@ -27,3 +27,16 @@ templates:
         label: "Scivolo marciapiede occupato"
         description: "Per segnalare scivoli del marciapiede occupati da autoveicoli che impediscono l'attraversamento."
         message: "Buongiorno @PALERMOPM, segnalo che lo scivolo del marciapiede in {indirizzo} è occupato da un autoveicolo e non è attraversabile. Potete intervenire? Grazie!"
+  - contextSlug: "acqua_e_fognature"
+    channelKey: "palermo-acqua-email"
+    channelType: "email"
+    templates:
+      - id: "tombino_otturato"
+        label: "Tombino otturato"
+        description: "Per segnalare tombini o caditoie completamente bloccati."
+        subject: "Segnalazione tombino otturato in {indirizzo}"
+        message: |
+          Questo tombino è otturato, allego coordinate geografiche e foto.
+          Intervenire gentilmente prima che arrivi la prossima bomba d'acqua e si creino situazioni critiche.
+
+          Grazie.

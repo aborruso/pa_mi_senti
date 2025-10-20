@@ -48,29 +48,41 @@ const channelTypeLabels: Record<string, string> = {
       </header>
       <ul class="space-y-4" role="list" aria-label="Canali di contatto disponibili">
         {context.channels.map((channel) => {
-          const hasSocialButton = channel.type === "social" && channel.platform === "twitter" && channel.key;
-          const socialUrl = hasSocialButton ? buildTemplatePath(municipality.istat, context.slug, channel.key!) : "";
+          const hasTemplatePage =
+            channel.key &&
+            ((channel.type === "social" && channel.platform === "twitter") || channel.type === "email");
+          const templateUrl = hasTemplatePage
+            ? buildTemplatePath(municipality.istat, context.slug, channel.key!)
+            : "";
+          const ctaText =
+            channel.type === "email"
+              ? "Usa i modelli email"
+              : channel.type === "social"
+                ? "Scrivigli su Twitter/X"
+                : "";
 
           return (
-            <li class={`rounded-xl border border-slate-200 p-4 transition ${hasSocialButton ? 'hover:shadow-md hover:border-brand cursor-pointer' : ''}`}>
-              {hasSocialButton ? (
-                <a href={socialUrl} class="block">
+            <li
+              class={`rounded-xl border border-slate-200 p-4 transition ${hasTemplatePage ? 'hover:shadow-md hover:border-brand cursor-pointer' : ''}`}
+            >
+              {hasTemplatePage ? (
+                <a href={templateUrl} class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded-xl">
                   <div class="flex flex-wrap items-baseline justify-between gap-2">
                     <span class="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold uppercase text-brand-dark">
                       {channelTypeLabels[channel.type] || channel.type}
                     </span>
                     <span class="text-sm font-medium text-slate-900">{channel.label}</span>
                   </div>
-                  <p class="mt-2 break-all text-sm text-brand-dark">
-                    <span class="hover:underline">{channel.value}</span>
-                  </p>
+                  <p class="mt-2 break-all text-sm text-brand-dark">{channel.value}</p>
                   {channel.notes && (
                     <p class="mt-2 text-xs text-slate-500">Nota: {channel.notes}</p>
                   )}
-                  <div class="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white">
-                    Scrivigli su Twitter/X
-                    <span aria-hidden="true">↗</span>
-                  </div>
+                  {ctaText && (
+                    <div class="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white">
+                      {ctaText}
+                      <span aria-hidden="true">↗</span>
+                    </div>
+                  )}
                 </a>
               ) : (
                 <>

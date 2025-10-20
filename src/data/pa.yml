@@ -114,3 +114,8 @@ municipalities:
             label: "Modulo online AMAP"
             value: "https://www.amapspa.it/it/segnalazioni/"
             notes: "Compila il modulo online per una segnalazione strutturata"
+          - type: "email"
+            key: "palermo-acqua-email"
+            label: "Servizi correlati a fognature e acque meteoriche"
+            value: "segreteria.foam@amapspa.it, ufficio.idrogeologicofognario@comune.palermo.it, info@amapspa.it"
+            notes: "Email per segnalare tombini e caditoie otturati o ostruiti."
