@@ -33,7 +33,7 @@ templates:
     templates:
       - id: "tombino_otturato"
         label: "Tombino otturato"
-        description: "Per segnalare tombini o caditoie completamente bloccati."
+        description: "Per segnalare tombini o caditoie bloccati."
         subject: "Segnalazione tombino otturato in {indirizzo}"
         message: |
           Questo tombino è otturato, allego coordinate geografiche e foto.
