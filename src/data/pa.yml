@@ -64,7 +64,6 @@ municipalities:
             url: "https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-infrastrutture-viarie-e-per-la-mobilita"
         channels:
           - type: "email"
-            key: "palermo-pronto-intervento-manutenzione-strade-email"
             label: "Pronto intervento manutenzione strade"
             value: "servizio.manutenzionestrade@comune.palermo.it"
             notes: "inviare segnalazioni con foto e dettagli toponomastici. Il servizio è attivo dalle ore 7:30 alle ore 14:00 nei giorni di lunedì, martedì, giovedì e venerdì e dalle ore 7:30 alle ore 18:00 di mercoledì."

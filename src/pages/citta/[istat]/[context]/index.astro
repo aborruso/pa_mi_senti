@@ -48,14 +48,13 @@ const channelTypeLabels: Record<string, string> = {
       </header>
       <ul class="space-y-4" role="list" aria-label="Canali di contatto disponibili">
         {context.channels.map((channel) => {
-          const hasTemplateButton = (channel.type === "social" && channel.platform === "twitter" && channel.key) || (channel.type === "email" && channel.key);
-          const templateUrl = hasTemplateButton ? buildTemplatePath(municipality.istat, context.slug, channel.key!) : "";
-          const buttonLabel = channel.type === "email" ? "Accedi ai template email" : "Scrivigli su Twitter/X";
+          const hasSocialButton = channel.type === "social" && channel.platform === "twitter" && channel.key;
+          const socialUrl = hasSocialButton ? buildTemplatePath(municipality.istat, context.slug, channel.key!) : "";
 
           return (
-            <li class={`rounded-xl border border-slate-200 p-4 transition ${hasTemplateButton ? 'hover:shadow-md hover:border-brand cursor-pointer' : ''}`}>
-              {hasTemplateButton ? (
-                <a href={templateUrl} class="block">
+            <li class={`rounded-xl border border-slate-200 p-4 transition ${hasSocialButton ? 'hover:shadow-md hover:border-brand cursor-pointer' : ''}`}>
+              {hasSocialButton ? (
+                <a href={socialUrl} class="block">
                   <div class="flex flex-wrap items-baseline justify-between gap-2">
                     <span class="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold uppercase text-brand-dark">
                       {channelTypeLabels[channel.type] || channel.type}
@@ -69,7 +68,7 @@ const channelTypeLabels: Record<string, string> = {
                     <p class="mt-2 text-xs text-slate-500">Nota: {channel.notes}</p>
                   )}
                   <div class="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white">
-                    {buttonLabel}
+                    Scrivigli su Twitter/X
                     <span aria-hidden="true">↗</span>
                   </div>
                 </a>
@@ -118,10 +117,10 @@ const channelTypeLabels: Record<string, string> = {
           <ul class="mt-2 space-y-2 text-sm text-brand-dark">
             {context.helpfulLinks.map((link) => (
               <li>
-                <a
-                  class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
-                  href={link.url}
-                  target="_blank"
+                <a 
+                  class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded" 
+                  href={link.url} 
+                  target="_blank" 
                   rel="noreferrer"
                   aria-label={`${link.label} (si apre in una nuova scheda)`}
                 >
