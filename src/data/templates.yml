@@ -27,3 +27,12 @@ templates:
         label: "Scivolo marciapiede occupato"
         description: "Per segnalare scivoli del marciapiede occupati da autoveicoli che impediscono l'attraversamento."
         message: "Buongiorno @PALERMOPM, segnalo che lo scivolo del marciapiede in {indirizzo} è occupato da un autoveicolo e non è attraversabile. Potete intervenire? Grazie!"
+  - contextSlug: "manutenzione_strade"
+    channelKey: "palermo-pronto-intervento-manutenzione-strade-email"
+    channelType: "email"
+    templates:
+      - id: "segnalazione_urgente_strada"
+        label: "Segnalazione urgente strada/marciapiede"
+        description: "Per segnalare situazioni di urgenza su strade o marciapiedi (buche, dissesti, pericoli, ecc)."
+        subject: "Segnalazione urgente manutenzione stradale"
+        message: "Buongiorno, segnalo una situazione urgente in {indirizzo} relativa a {problema}. Allego foto e dettagli. Grazie."

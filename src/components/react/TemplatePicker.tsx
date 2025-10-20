@@ -1,13 +1,14 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import { buildTwitterIntentUrl, extractTwitterHandle } from "../../lib/social";
 import { maybeAppendLocationLink } from "../../lib/location";
-import type { MessageTemplateItem } from "../../lib/types";
+import type { MessageTemplateItem, ChannelType } from "../../lib/types";
 
 interface TemplatePickerProps {
   municipalityName: string;
   contextName: string;
   channelLabel: string;
   channelValue: string;
+  channelType: ChannelType;
   templates: MessageTemplateItem[];
   backUrl: string;
 }
@@ -17,6 +18,7 @@ const TemplatePicker = ({
   contextName,
   channelLabel,
   channelValue,
+  channelType,
   templates,
   backUrl
 }: TemplatePickerProps) => {
@@ -26,12 +28,25 @@ const TemplatePicker = ({
   const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const yesButtonRef = useRef<HTMLButtonElement>(null);
-  
-  const handle = useMemo(() => extractTwitterHandle(channelValue), [channelValue]);
+
+  const handle = useMemo(() => {
+    if (channelType === "social") {
+      return extractTwitterHandle(channelValue);
+    }
+    return null;
+  }, [channelValue, channelType]);
+
   const baseMessage = handle ? `${handle} ` : "";
 
   const availableTemplates = useMemo(() => {
     const defined = templates ?? [];
+
+    // Per email, non aggiungiamo template custom
+    if (channelType === "email") {
+      return defined;
+    }
+
+    // Per social, aggiungi template custom
     const custom: MessageTemplateItem = {
       id: "custom",
       label: "Scrivi un messaggio libero",
@@ -39,7 +54,7 @@ const TemplatePicker = ({
       message: baseMessage
     };
     return [...defined, custom];
-  }, [templates, baseMessage]);
+  }, [templates, baseMessage, channelType]);
 
   // Focus trap and ESC key handling for modal dialog
   useEffect(() => {
@@ -81,6 +96,16 @@ const TemplatePicker = ({
       return;
     }
 
+    // Per email, apri direttamente il mailto senza dialog
+    if (channelType === "email") {
+      const subject = encodeURIComponent(template.subject || "Segnalazione");
+      const body = encodeURIComponent(template.message || "");
+      const mailtoUrl = `mailto:${channelValue}?subject=${subject}&body=${body}`;
+      window.location.href = mailtoUrl;
+      return;
+    }
+
+    // Per social, mostra il dialog per la geolocalizzazione
     setPendingTemplate(template);
     setShowLocationDialog(true);
   };
@@ -129,8 +154,9 @@ const TemplatePicker = ({
           <p className="text-xs uppercase tracking-wide text-brand">Messaggi precompilati</p>
           <h2 className="text-2xl font-semibold text-slate-900">{channelLabel}</h2>
           <p className="mt-2 text-sm text-slate-600">
-            Scegli uno dei modelli rapidi oppure apri Twitter/X con un messaggio libero. Potrai sempre
-            modificare il testo prima dell&apos;invio.
+            {channelType === "email"
+              ? "Scegli uno dei modelli e invia l'email con oggetto e testo già compilati. Potrai sempre modificare i dettagli nel tuo client di posta."
+              : "Scegli uno dei modelli rapidi oppure apri Twitter/X con un messaggio libero. Potrai sempre modificare il testo prima dell'invio."}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
             <span>
@@ -183,15 +209,17 @@ const TemplatePicker = ({
           >
             <span aria-hidden="true">←</span> Torna ai canali
           </a>
-          <a
-            className="text-sm text-brand underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
-            href={channelValue}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Apri il profilo su Twitter/X (si apre in una nuova scheda)"
-          >
-            Apri il profilo su Twitter/X
-          </a>
+          {channelType === "social" && (
+            <a
+              className="text-sm text-brand underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
+              href={channelValue}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Apri il profilo su Twitter/X (si apre in una nuova scheda)"
+            >
+              Apri il profilo su Twitter/X
+            </a>
+          )}
         </div>
       </section>
 
@@ -217,7 +245,7 @@ const TemplatePicker = ({
             {isLoadingLocation ? (
               <>
                 <div className="flex items-center gap-3">
-                  <div 
+                  <div
                     className="h-6 w-6 animate-spin rounded-full border-4 border-brand border-t-transparent"
                     role="status"
                     aria-label="Caricamento in corso"

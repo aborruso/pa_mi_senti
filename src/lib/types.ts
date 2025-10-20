@@ -37,6 +37,7 @@ export interface MessageTemplateItem {
   label: string;
   message: string;
   description?: string;
+  subject?: string; // Solo per email: oggetto precompilato
 }
 
 export interface MessageTemplateGroup {

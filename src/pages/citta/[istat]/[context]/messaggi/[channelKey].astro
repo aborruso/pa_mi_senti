@@ -22,7 +22,13 @@ export function getStaticPaths() {
   return getMunicipalities().flatMap((municipality) =>
     municipality.contexts.flatMap((context) =>
       context.channels
-        .filter((channel) => channel.key && channel.type === "social" && channel.platform === "twitter")
+        .filter((channel) => {
+          // Includi canali social Twitter e canali email con key
+          return channel.key && (
+            (channel.type === "social" && channel.platform === "twitter") ||
+            channel.type === "email"
+          );
+        })
         .map((channel) => ({
           params: {
             istat: municipality.istat,
@@ -61,6 +67,7 @@ const backUrl = buildContextPath(municipality.istat, context.slug);
     contextName={context.name}
     channelLabel={channel.label}
     channelValue={channel.value}
+    channelType={channel.type}
     templates={templates}
     backUrl={backUrl}
   />
