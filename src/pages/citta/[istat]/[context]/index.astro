@@ -56,7 +56,7 @@ const channelTypeLabels: Record<string, string> = {
             : "";
           const ctaText =
             channel.type === "email"
-              ? "Usa i modelli email"
+              ? "Scrivigli email"
               : channel.type === "social"
                 ? "Scrivigli su Twitter/X"
                 : "";
@@ -129,10 +129,10 @@ const channelTypeLabels: Record<string, string> = {
           <ul class="mt-2 space-y-2 text-sm text-brand-dark">
             {context.helpfulLinks.map((link) => (
               <li>
-                <a 
-                  class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded" 
-                  href={link.url} 
-                  target="_blank" 
+                <a
+                  class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:rounded"
+                  href={link.url}
+                  target="_blank"
                   rel="noreferrer"
                   aria-label={`${link.label} (si apre in una nuova scheda)`}
                 >
