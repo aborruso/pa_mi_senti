@@ -13,6 +13,7 @@ Non richiede autenticazione, perché ognuno poi, in base al canale (email, segna
   - nettezza_urbana
   - verde pubblico
   - strade
+  - ecc.
 
 ## Filosofia del progetto
 
