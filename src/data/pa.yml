@@ -119,3 +119,17 @@ municipalities:
             label: "Uffici vari"
             value: "segreteria.foam@amapspa.it, ufficio.idrogeologicofognario@comune.palermo.it, info@amapspa.it"
             notes: "Email per segnalare tombini e caditoie otturati o ostruiti."
+      - slug: "manutenzione_aree_verdi"
+        name: "Manutenzione aree verdi e alberature"
+        description: "Manutenzione ordinaria, coltura e rigenerazione di manti erbosi, aiuole, parchi (esclusi parchi storici) e pulizia delle aree verdi"
+        emoji: "🌿"
+        color: "bg-lime-50"
+        helpfulLinks:
+          - label: "Re.Se.T."
+            url: "https://resetpalermo.it/servizi/servizi-in-convenzione/"
+        channels:
+          - type: "email"
+            key: "Re.Se.T."
+            label: "Ufficio Verde Pubblico"
+            value: "reset.pa.scpa@resetpalermo.it"
+            notes: "Inviare foto, descrizione e riferimento topografico per una segnalazione completa."
