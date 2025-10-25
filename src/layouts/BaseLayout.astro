@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { title = "PA Mi Senti", description } = Astro.props as Props;
+const CONTRIBUTE_GUIDE_URL = "https://github.com/aborruso/pa_mi_senti/blob/main/CONTRIBUIRE.md";
 
 // Costruisci URL completi dinamici per meta tag social
 const BASE_URL = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -89,13 +90,24 @@ const ogImageUrl = `${SITE_URL}${BASE_URL}/pa_mi_senti_og.png`;
               <p class="text-sm text-slate-500">
                 Scegli la città, il tema e ottieni il canale migliore senza cercare ovunque.
               </p>
-              <a
-                href={buildInfoPath()}
-                class="rounded-lg border border-slate-300 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
-                aria-label="Informazioni sul progetto PA Mi Senti"
-              >
-                ℹ️ Info
-              </a>
+              <div class="flex gap-2">
+                <a
+                  href={buildInfoPath()}
+                  class="rounded-lg border border-slate-300 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
+                  aria-label="Informazioni sul progetto PA Mi Senti"
+                >
+                  ℹ️ Info
+                </a>
+                <a
+                  href={CONTRIBUTE_GUIDE_URL}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  class="rounded-lg border border-slate-300 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
+                  aria-label="Guida su GitHub per contribuire a PA Mi Senti"
+                >
+                  🤝 Contribuisci
+                </a>
+              </div>
             </div>
           </nav>
         </div>
