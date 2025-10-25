@@ -12,5 +12,13 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-  ignorePatterns: ["dist", ".astro"]
+  ignorePatterns: ["dist", ".astro"],
+  overrides: [
+    {
+      files: ["src/env.d.ts"],
+      rules: {
+        "@typescript-eslint/triple-slash-reference": "off"
+      }
+    }
+  ]
 };
