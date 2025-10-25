@@ -171,6 +171,7 @@ templates:
 #### Placeholder nei messaggi
 
 Puoi usare placeholder nel messaggio per personalizzazione:
+
 - `{indirizzo}` - L'utente deve sostituire con l'indirizzo
 - `{piazza}` - L'utente deve sostituire con il nome della piazza
 - `{descrizione}` - L'utente deve sostituire con una descrizione
@@ -237,13 +238,16 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 ### Aggiungere una nuova città
 
 **Requisiti**:
+
 - Almeno un tema (context) con almeno un canale
 - Codice ISTAT corretto
 - Verifica che i canali di contatto siano ufficiali e funzionanti
 
 **Procedura**:
+
 1. Apri una [issue su GitHub](https://github.com/aborruso/pa_mi_senti/issues) con il titolo: `Nuova città: [Nome]`
 2. Nel corpo dell'issue, fornisci:
+
    - Codice ISTAT
    - Nome città e regione
    - Numero abitanti (approssimativo va bene)
@@ -251,6 +255,7 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
    - (Opzionale) Link ai siti istituzionali per verifica
 
 **Esempio issue**:
+
 ```markdown
 ## Città: Catania
 - ISTAT: 087015
@@ -269,12 +274,15 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 ### Aggiungere un nuovo tema a una città esistente
 
 **Requisiti**:
+
 - Almeno un canale di contatto ufficiale e funzionante
 - Verificare che il canale risponda effettivamente alle segnalazioni
 
 **Procedura**:
+
 1. Apri una [issue su GitHub](https://github.com/aborruso/pa_mi_senti/issues) con il titolo: `Nuovo tema per [Città]: [Nome tema]`
 2. Nel corpo dell'issue, fornisci:
+
    - Slug del tema (es. `verde_pubblico`)
    - Nome visualizzato (es. "Verde pubblico e parchi")
    - Descrizione breve
@@ -284,6 +292,7 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
    - (Opzionale) Link utili correlati al tema
 
 **Esempio issue**:
+
 ```markdown
 ## Nuovo tema per Palermo: Verde pubblico
 
@@ -304,18 +313,22 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 ### Aggiungere messaggi precompilati (template)
 
 **Requisiti**:
+
 - Devono esistere già il tema e il canale in `pa.yml`
 - Il canale deve essere di tipo `social` o `email`
 - Il messaggio deve essere cortese, chiaro e sintetico
 
 **Procedura**:
+
 1. Apri una [issue su GitHub](https://github.com/aborruso/pa_mi_senti/issues) con il titolo: `Nuovi template per [Città] - [Tema]`
 2. Nel corpo dell'issue, fornisci:
+
    - `contextSlug` e `channelKey` a cui si riferiscono
    - Tipo di canale (`social` o `email`)
    - Per ogni template: id, label, description, message (e subject se email)
 
 **Esempio issue**:
+
 ```markdown
 ## Nuovi template per Palermo - Polizia Municipale
 
@@ -341,18 +354,22 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 ### Aggiungere un nuovo canale di contatto
 
 **Requisiti**:
+
 - Il tema deve esistere in `pa.yml`
 - Il canale deve essere ufficiale e verificato
 
 **Procedura**:
+
 1. Apri una [issue su GitHub](https://github.com/aborruso/pa_mi_senti/issues) con il titolo: `Nuovo canale per [Città] - [Tema]`
 2. Nel corpo dell'issue, fornisci:
+
    - Slug del tema esistente
    - Tipo di canale (`social`, `email`, `phone`, `form`)
    - Label e value (URL, email, telefono)
    - Note opzionali
 
 **Esempio issue**:
+
 ```markdown
 ## Nuovo canale per Palermo - Igiene urbana
 
@@ -379,6 +396,7 @@ Prima di aprire una issue, verifica:
 ## Tempistiche
 
 Una volta aperta la issue:
+
 1. Verrà valutata la proposta (verifiche su ufficialità e funzionamento)
 2. Se approvata, verrà integrata nel codice
 3. Il sito viene aggiornato automaticamente ad ogni push su `main`
