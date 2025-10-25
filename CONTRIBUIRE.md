@@ -234,7 +234,7 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 
 ## Come Proporre un'Aggiunta
 
-### 1
+### Aggiungere una nuova città
 
 **Requisiti**:
 - Almeno un tema (context) con almeno un canale
@@ -266,7 +266,7 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 - Canale: Telefono 095 XXX XXX
 ```
 
-### 2
+### Aggiungere un nuovo tema a una città esistente
 
 **Requisiti**:
 - Almeno un canale di contatto ufficiale e funzionante
@@ -301,7 +301,7 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 - https://www.comune.palermo.it/verde-pubblico
 ```
 
-### 3
+### Aggiungere messaggi precompilati (template)
 
 **Requisiti**:
 - Devono esistere già il tema e il canale in `pa.yml`
@@ -338,7 +338,7 @@ Per le email, il link viene separato dal corpo con una riga vuota per leggibilit
 
 **NON includere `#PaMiSenti` nei template** - viene aggiunto automaticamente dal codice.
 
-### 4
+### Aggiungere un nuovo canale di contatto
 
 **Requisiti**:
 - Il tema deve esistere in `pa.yml`
