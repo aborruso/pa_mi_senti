@@ -16,6 +16,7 @@ municipalities:
           - label: "App segnalazioni"
             url: "https://www.rapspa.it/site/segnalazione/"
         channels:
+          # key obbligatoria solo per canali con template in templates.yml
           - type: "social"
             key: "palermo-rap-twitter"
             platform: "twitter"
@@ -66,7 +67,10 @@ municipalities:
           - type: "email"
             label: "Pronto intervento manutenzione strade"
             value: "servizio.manutenzionestrade@comune.palermo.it"
-            notes: "inviare segnalazioni con foto e dettagli toponomastici. Il servizio è attivo dalle ore 7:30 alle ore 14:00 nei giorni di lunedì, martedì, giovedì e venerdì e dalle ore 7:30 alle ore 18:00 di mercoledì."
+            notes: >
+              Inviare segnalazioni con foto e dettagli toponomastici.
+              Il servizio è attivo dalle ore 7:30 alle ore 14:00 nei giorni di lunedì, martedì, giovedì e venerdì
+              e dalle ore 7:30 alle ore 18:00 di mercoledì.
       - slug: "illuminazione_pubblica"
         name: "Illuminazione pubblica e impianti semaforici"
         description: "Per segnalare guasti o malfunzionamenti degli impianti di pubblica illuminazione e semaforici del Comune di Palermo."

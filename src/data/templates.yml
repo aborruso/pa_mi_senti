@@ -10,7 +10,7 @@ templates:
       - id: "cestini_pieni"
         label: "Cestini pieni"
         description: "Per cestini pubblici colmi o inutilizzabili."
-        message: "Buongiorno @RapPalermo, segnalo che i cestini in {indirizzo/piazza} sono pieni e inutilizzabili. Potete verificarli? Grazie!"
+        message: "Buongiorno @RapPalermo, segnalo che i cestini in {indirizzo} sono pieni e inutilizzabili. Potete verificarli? Grazie!"
       - id: "mancato_spazzamento"
         label: "Mancato spazzamento"
         description: "Per segnalare presenza di rifiuti abbandonati e una frequenza di spazzamento non adeguata."
