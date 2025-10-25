@@ -46,6 +46,7 @@ Tutti i messaggi social includono automaticamente l'hashtag `#PaMiSenti` per cre
 
 Vuoi contribuire al progetto? Perfetto! Ecco da dove partire:
 
+- 🤝 **[CONTRIBUIRE.md](./CONTRIBUIRE.md)** — guida per proporre aggiunte (città, temi, template)
 - 📖 **[TECHNICAL.md](./TECHNICAL.md)** — guida tecnica completa per sviluppatori
 - 📋 **[PRD.md](./PRD.md)** — requisiti e specifiche del prodotto
 - 🤖 **[AGENTS.md](./AGENTS.md)** — linee guida per AI agents che lavorano sul progetto
@@ -86,7 +87,7 @@ Puoi aggiungere nuove città, temi e template messaggi modificando solo due file
 - `src/data/pa.yml` — città, temi e canali
 - `src/data/templates.yml` — messaggi precompilati per social
 
-Leggi la [guida dettagliata in TECHNICAL.md](./TECHNICAL.md#come-aggiungere-un-nuovo-tema) per tutti i passaggi!
+Leggi la [guida completa CONTRIBUIRE.md](./CONTRIBUIRE.md) per capire la logica e proporre aggiunte!
 
 ## 🔧 Stack Tecnico
 
