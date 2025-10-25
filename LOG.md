@@ -1,5 +1,20 @@
 # Registro Evoluzione Progetto
 
+## 2024-10-25
+
+- Ottimizzato workflow GitHub Actions per evitare deploy quando si modificano solo file di documentazione
+- Creato documento IDEAS.md per raccogliere proposte di miglioramento futuro (prima idea: GitHub Issue Forms come YAML builder)
+- Migliorata formattazione markdown in CONTRIBUIRE.md (righe vuote prima di elenchi e blocchi di codice)
+- Standardizzati placeholder nei template da `{indirizzo/piazza}` a `{indirizzo}`
+- Migliorata leggibilità file YAML con commenti esplicativi e formato multilinea per note lunghe
+
+## 2024-10-19
+
+- Creato documento CONTRIBUIRE.md con guida completa per proporre aggiunte (città, temi, template, canali)
+- Creato documento CLAUDE.md con istruzioni per Claude Code
+- Aggiunto link alla guida per contribuire nel layout principale
+- Migliorata documentazione Copilot con dettagli su architettura e pattern
+
 ## 2024-08-15
 
 - creazione Pagina Info
