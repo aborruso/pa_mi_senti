@@ -14,25 +14,14 @@ Questo documento spiega la logica del progetto, la struttura dei dati e come pro
 
 ## La Filosofia del Progetto
 
-**PA Mi Senti** è costruito su principi solidi e irrinunciabili:
+**PA Mi Senti** è costruito su questi principi:
 
-### 1
-Non devi creare account o autenticarti. Ti identifichi solo quando contatti la PA attraverso il canale che scegli (tweet dal tuo account, email, telefonata).
-
-### 2
-Vuoi allegare foto, video o documenti? Lo fai direttamente nella piattaforma che usi (Twitter/X, email, ecc.). Il servizio non gestisce contenuti multimediali.
-
-### 3
-Template precompilati per le segnalazioni più comuni (es. a Palermo la RAP risponde ai tweet, quindi trovi messaggi già pronti per cestini pieni, abbandoni, mancato spazzamento).
-
-### 4
-Se usi Twitter/X o email con template, puoi scegliere di includere la tua posizione nel messaggio, rendendo più facile l'intervento. È sempre una tua scelta.
-
-### 5
-Aggiungere nuove città, temi o canali richiede solo la modifica di file di configurazione YAML. Chiunque può contribuire.
-
-### 6
-PA Mi Senti non raccoglie dati personali. Non ci sono registrazioni, cookie di tracciamento o database. La localizzazione è facoltativa e richiede il tuo consenso esplicito ogni volta.
+- Non devi creare account o autenticarti. Ti identifichi solo quando contatti la PA attraverso il canale che scegli (tweet dal tuo account, email, telefonata).
+- Vuoi allegare foto, video o documenti? Lo fai direttamente nella piattaforma che usi (Twitter/X, email, ecc.). Il servizio non gestisce contenuti multimediali.
+- Template precompilati per le segnalazioni più comuni (es. a Palermo la RAP risponde ai tweet, quindi trovi messaggi già pronti per cestini pieni, abbandoni, mancato spazzamento).
+- Se usi Twitter/X o email con template, puoi scegliere di includere la tua posizione nel messaggio, rendendo più facile l'intervento. È sempre una tua scelta.
+- Aggiungere nuove città, temi o canali richiede solo la modifica di file di configurazione YAML. Chiunque può contribuire.
+- PA Mi Senti non raccoglie dati personali. Non ci sono registrazioni, cookie di tracciamento o database. La localizzazione è facoltativa e richiede il tuo consenso esplicito ogni volta.
 
 ---
 
