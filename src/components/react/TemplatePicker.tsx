@@ -1,7 +1,12 @@
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useEffect, useRef, lazy, Suspense } from "react";
+import { flushSync } from "react-dom";
 import { buildTwitterIntentUrl, extractTwitterHandle } from "../../lib/social";
-import { maybeAppendLocationLink } from "../../lib/location";
+import { requestCurrentPosition, appendLocationLinkFromCoords } from "../../lib/location";
+import type { Coordinates } from "../../lib/location";
 import type { MessageTemplateItem, ChannelType } from "../../lib/types";
+
+// Lazy load map component
+const MapPickerModal = lazy(() => import("./MapPickerModal"));
 
 interface TemplatePickerProps {
   municipalityName: string;
@@ -24,10 +29,11 @@ const TemplatePicker = ({
 }: TemplatePickerProps) => {
   const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
   const [showLocationDialog, setShowLocationDialog] = useState(false);
+  const [showMapPicker, setShowMapPicker] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const yesButtonRef = useRef<HTMLButtonElement>(null);
+  const gpsButtonRef = useRef<HTMLButtonElement>(null);
 
   const isSocialChannel = channelType === "social";
   const isEmailChannel = channelType === "email";
@@ -85,7 +91,7 @@ const TemplatePicker = ({
     if (!showLocationDialog) return;
 
     // Focus the first button when dialog opens
-    yesButtonRef.current?.focus();
+    gpsButtonRef.current?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && !isLoadingLocation) {
@@ -130,58 +136,102 @@ const TemplatePicker = ({
     setShowLocationDialog(true);
   };
 
-  const proceedWithMessage = async (includeLocation: boolean) => {
-    if (!pendingTemplate) {
-      return;
+  const sendMessage = (message: string, template: MessageTemplateItem) => {
+    if (isEmailChannel) {
+      const mailtoUrl = buildMailtoUrl(template, message);
+      triggerMailto(mailtoUrl);
+    } else if (isSocialChannel) {
+      const finalUrl = buildTwitterIntentUrl(message);
+      window.open(finalUrl, "_blank", "noopener");
     }
+  };
 
-    let initialMessage = pendingTemplate.message || baseMessage;
+  const buildInitialMessage = (template: MessageTemplateItem): string => {
+    let message = template.message || baseMessage;
 
     // Aggiungi l'hashtag #PaMiSenti solo se non è il template custom (messaggio libero)
-    if (
-      isSocialChannel &&
-      pendingTemplate.id !== "custom" &&
-      initialMessage.trim()
-    ) {
-      initialMessage = `${initialMessage.trim()} #PaMiSenti`;
+    if (isSocialChannel && template.id !== "custom" && message.trim()) {
+      message = `${message.trim()} #PaMiSenti`;
     }
 
+    return message;
+  };
+
+  const handleUseGPS = async () => {
+    if (!pendingTemplate) return;
+
+    setIsLoadingLocation(true);
     setActiveTemplate(pendingTemplate.id);
-    let finalMessage = initialMessage;
 
     try {
-      if (includeLocation) {
-        setIsLoadingLocation(true);
-        finalMessage = await maybeAppendLocationLink(initialMessage, {
-          confirmMessage: "", // Non mostrare il confirm, abbiamo già chiesto
-          onRequestStart: () => setActiveTemplate(pendingTemplate.id),
-          onRequestEnd: () => setActiveTemplate(null)
-        });
+      const coords = await requestCurrentPosition();
+      const initialMessage = buildInitialMessage(pendingTemplate);
+      let finalMessage = appendLocationLinkFromCoords(initialMessage, coords);
 
-        if (isEmailChannel && finalMessage.includes("https://www.google.com/maps/place")) {
-          // Assicura che il link sia separato dal corpo per leggibilità nelle email
-          finalMessage = finalMessage.replace(
-            /\s(https:\/\/www\.google\.com\/maps\/place\/.+)$/i,
-            "\n\n$1"
-          );
-        }
+      if (isEmailChannel && finalMessage.includes("https://www.google.com/maps/place")) {
+        finalMessage = finalMessage.replace(
+          /\s(https:\/\/www\.google\.com\/maps\/place\/.+)$/i,
+          "\n\n$1"
+        );
       }
+
+      sendMessage(finalMessage, pendingTemplate);
     } catch (error) {
-      console.error("Errore durante il recupero della posizione:", error);
+      window.alert("Non è stato possibile recuperare la tua posizione GPS.");
     } finally {
       setIsLoadingLocation(false);
       setShowLocationDialog(false);
       setActiveTemplate(null);
       setPendingTemplate(null);
     }
+  };
 
-    if (isEmailChannel) {
-      const mailtoUrl = buildMailtoUrl(pendingTemplate, finalMessage);
-      triggerMailto(mailtoUrl);
-    } else if (isSocialChannel) {
-      const finalUrl = buildTwitterIntentUrl(finalMessage);
-      window.open(finalUrl, "_blank", "noopener");
+  const handleUseMap = () => {
+    setShowLocationDialog(false);
+    setShowMapPicker(true);
+  };
+
+  const handleMapConfirm = (coords: Coordinates) => {
+    if (!pendingTemplate) return;
+
+    const template = pendingTemplate;
+    const initialMessage = buildInitialMessage(template);
+    let finalMessage = appendLocationLinkFromCoords(initialMessage, coords);
+
+    if (isEmailChannel && finalMessage.includes("https://www.google.com/maps/place")) {
+      finalMessage = finalMessage.replace(
+        /\s(https:\/\/www\.google\.com\/maps\/place\/.+)$/i,
+        "\n\n$1"
+      );
     }
+
+    // Forza commit immediato degli state updates prima di aprire nuova finestra
+    flushSync(() => {
+      setShowMapPicker(false);
+      setShowLocationDialog(false);
+      setPendingTemplate(null);
+      setActiveTemplate(null);
+    });
+
+    // Invia dopo che gli updates sono committati
+    sendMessage(finalMessage, template);
+  };
+
+  const handleMapClose = () => {
+    setShowMapPicker(false);
+    setShowLocationDialog(true); // Torna al dialog delle opzioni
+  };
+
+  const handleNoLocation = () => {
+    if (!pendingTemplate) return;
+
+    const initialMessage = buildInitialMessage(pendingTemplate);
+    sendMessage(initialMessage, pendingTemplate);
+
+    // Pulisci tutto lo stato
+    setShowLocationDialog(false);
+    setPendingTemplate(null);
+    setActiveTemplate(null);
   };
 
   return (
@@ -337,22 +387,64 @@ const TemplatePicker = ({
                   Puoi includere un link con la tua posizione attuale {isEmailChannel ? "nell'email" : "nel messaggio"} per facilitare
                   l&apos;intervento della PA.
                 </p>
-                <p className="mt-2 text-xs text-slate-500 italic">
-                  La precisione dipende dal tuo dispositivo.
-                </p>
-                <div className="mt-6 flex gap-3">
+                <div className="mt-6 space-y-3">
                   <button
-                    ref={yesButtonRef}
-                    className="flex-1 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
+                    ref={gpsButtonRef}
+                    className="w-full rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
                     type="button"
-                    onClick={() => proceedWithMessage(true)}
+                    onClick={handleUseGPS}
                   >
-                    Sì, aggiungi posizione
+                    <div className="flex items-center justify-center gap-2">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      <span>GPS automatico</span>
+                    </div>
                   </button>
                   <button
-                    className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"
+                    className="w-full rounded-lg border-2 border-brand bg-white px-4 py-3 text-sm font-semibold text-brand transition hover:bg-brand/5 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/50"
                     type="button"
-                    onClick={() => proceedWithMessage(false)}
+                    onClick={handleUseMap}
+                  >
+                    <div className="flex items-center justify-center gap-2">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                        />
+                      </svg>
+                      <span>Scegli su mappa</span>
+                    </div>
+                  </button>
+                  <button
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"
+                    type="button"
+                    onClick={handleNoLocation}
                   >
                     No, grazie
                   </button>
@@ -361,6 +453,19 @@ const TemplatePicker = ({
             )}
           </div>
         </div>
+      )}
+
+      {/* Map Picker Modal */}
+      {showMapPicker && (
+        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="text-white">Caricamento mappa...</div>
+        </div>}>
+          <MapPickerModal
+            isOpen={showMapPicker}
+            onClose={handleMapClose}
+            onConfirm={handleMapConfirm}
+          />
+        </Suspense>
       )}
     </>
   );

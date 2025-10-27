@@ -244,12 +244,27 @@ Astro genera tutte le rotte in fase di build tramite `getStaticPaths()`:
 
 ### Geolocalizzazione
 
-La funzione `maybeAppendLocationLink()` in `src/lib/location.ts`:
+Il sistema offre 3 opzioni per aggiungere coordinate al messaggio:
 
-1. Mostra un dialogo personalizzato (non il browser native)
-2. Richiede il consenso dell'utente
-3. Usa l'API `navigator.geolocation`
-4. Aggiunge un link Google Maps al messaggio
+**1. GPS Automatico**
+- Usa `requestCurrentPosition()` da `src/lib/location.ts`
+- API `navigator.geolocation` con timeout 10s e alta precisione
+- Appende link Google Maps con `appendLocationLinkFromCoords()`
+
+**2. Scegli su Mappa** (Release 2)
+- Componente `MapPickerModal.tsx` con MapLibre GL (~260KB gzipped)
+- Tiles OpenStreetMap (no API key, privacy-first)
+- Lazy loading via `src/lib/map-loader.ts` (caricato solo se richiesto)
+- Marker draggable, button GPS integrato, display coordinate live
+- All'apertura richiede automaticamente GPS per centrare mappa (fallback: centro Italia)
+
+**3. Nessuna Posizione**
+- Invia messaggio senza coordinate
+
+Implementazione:
+- Dialog personalizzato React (NOT browser `confirm()`)
+- `flushSync()` per commit immediato state prima di aprire Twitter
+- Link formato: `https://www.google.com/maps/place/{lat},{lng}`
 
 ### Hashtag Automatico
 
