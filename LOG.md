@@ -1,5 +1,15 @@
 # Registro Evoluzione Progetto
 
+## 2025-10-27
+
+- Release 2: mappa interattiva per scelta manuale coordinate
+- Aggiunta MapLibre GL con tiles OpenStreetMap (lazy loading ~260KB gzipped)
+- Dialog geolocalizzazione ora offre 3 opzioni: GPS automatico, scegli su mappa, nessuna posizione
+- Mappa con marker draggable, button GPS integrato, coordinate display
+- GPS automatico all'apertura mappa se posizione non già fornita
+- Refactoring location.ts: nuova funzione `appendLocationLinkFromCoords()` per coords manuali
+- Fix chiusura modali dopo conferma posizione da mappa
+
 ## 2024-10-25
 
 - Ottimizzato workflow GitHub Actions per evitare deploy quando si modificano solo file di documentazione

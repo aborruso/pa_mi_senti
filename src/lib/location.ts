@@ -1,4 +1,4 @@
-interface Coordinates {
+export interface Coordinates {
   latitude: number;
   longitude: number;
 }
@@ -9,6 +9,21 @@ export const buildGoogleMapsLink = (coords: Coordinates): string => {
   const lat = formatCoordinate(coords.latitude);
   const lng = formatCoordinate(coords.longitude);
   return `https://www.google.com/maps/place/${lat},${lng}`;
+};
+
+/**
+ * Appende link Google Maps con coordinate fornite
+ * @param message Messaggio a cui appendere il link
+ * @param coords Coordinate già ottenute (da mappa o GPS)
+ * @returns Messaggio con link appeso
+ */
+export const appendLocationLinkFromCoords = (
+  message: string,
+  coords: Coordinates
+): string => {
+  const mapsLink = buildGoogleMapsLink(coords);
+  const trimmed = message.trim();
+  return trimmed ? `${trimmed} ${mapsLink}` : mapsLink;
 };
 
 export const requestCurrentPosition = (): Promise<Coordinates> =>

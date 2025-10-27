@@ -131,10 +131,16 @@ contexts:
 
 ### 3. Geolocation UX
 
-- Uses **custom React dialog** with Italian labels ("Sì, aggiungi posizione" / "No, grazie")
-- NEVER use browser's native `window.confirm()` which shows "OK"/"Cancel"
-- Implementation: [src/lib/location.ts](src/lib/location.ts) + state in [TemplatePicker.tsx](src/components/react/TemplatePicker.tsx)
-- Timeout: 10 seconds, high accuracy enabled
+- **3-option dialog**: GPS automatico, Scegli su mappa, No grazie
+- Uses **custom React dialog** with Italian labels (NOT browser native `window.confirm()`)
+- Implementation:
+  - [src/lib/location.ts](src/lib/location.ts): GPS functions + coords formatting
+  - [src/lib/map-loader.ts](src/lib/map-loader.ts): lazy loading MapLibre GL (~260KB gzipped)
+  - [src/components/react/TemplatePicker.tsx](src/components/react/TemplatePicker.tsx): dialog logic
+  - [src/components/react/MapPickerModal.tsx](src/components/react/MapPickerModal.tsx): interactive map
+- GPS timeout: 10s, high accuracy enabled
+- Map auto-requests GPS on open (fallback to Italy center if denied/failed)
+- Draggable marker, live coordinates display, "Usa posizione GPS" button in map
 
 ### 4. Message Templates
 
