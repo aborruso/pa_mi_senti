@@ -12,6 +12,7 @@ interface MapPickerModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (coords: Coordinates) => void;
+  onBeforeConfirm?: () => void;
   initialCoords?: Coordinates;
 }
 
@@ -28,6 +29,7 @@ const MapPickerModal = ({
   isOpen,
   onClose,
   onConfirm,
+  onBeforeConfirm,
   initialCoords
 }: MapPickerModalProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -220,6 +222,8 @@ const MapPickerModal = ({
   };
 
   const handleConfirm = () => {
+    // Chiudi modale parent PRIMA di processare coordinate
+    onBeforeConfirm?.();
     onConfirm(currentCoords);
     onClose();
   };

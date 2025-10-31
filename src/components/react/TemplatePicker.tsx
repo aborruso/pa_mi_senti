@@ -1,5 +1,4 @@
 import { useMemo, useState, useEffect, useRef, lazy, Suspense } from "react";
-import { flushSync } from "react-dom";
 import { buildTwitterIntentUrl, extractTwitterHandle } from "../../lib/social";
 import { requestCurrentPosition, appendLocationLinkFromCoords } from "../../lib/location";
 import type { Coordinates } from "../../lib/location";
@@ -205,21 +204,23 @@ const TemplatePicker = ({
       );
     }
 
-    // Forza commit immediato degli state updates prima di aprire nuova finestra
-    flushSync(() => {
-      setShowMapPicker(false);
-      setShowLocationDialog(false);
-      setPendingTemplate(null);
-      setActiveTemplate(null);
-    });
+    // Pulisci lo stato
+    setPendingTemplate(null);
+    setActiveTemplate(null);
 
-    // Invia dopo che gli updates sono committati
+    // Invia messaggio (modali già chiuse da onBeforeConfirm)
     sendMessage(finalMessage, template);
   };
 
   const handleMapClose = () => {
     setShowMapPicker(false);
     setShowLocationDialog(true); // Torna al dialog delle opzioni
+  };
+
+  const handleBeforeMapConfirm = () => {
+    // Chiudi TUTTE le modali prima di processare coordinate
+    setShowMapPicker(false);
+    setShowLocationDialog(false);
   };
 
   const handleNoLocation = () => {
@@ -464,6 +465,7 @@ const TemplatePicker = ({
             isOpen={showMapPicker}
             onClose={handleMapClose}
             onConfirm={handleMapConfirm}
+            onBeforeConfirm={handleBeforeMapConfirm}
           />
         </Suspense>
       )}
