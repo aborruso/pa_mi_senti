@@ -34,15 +34,17 @@
    - Verifica mobile: footer leggibile, link tappabili
 
 ## Validation
-- [ ] Build completa senza errori
-- [ ] Footer mostra "Privacy | Disclaimer" su tutte le pagine
-- [ ] Link portano a pagine corrette con contenuto leggibile
-- [ ] Path helper in `paths.ts` seguono convenzioni esistenti
-- [ ] Focus states applicati a nuovi link
-- [ ] Contenuto Privacy menziona: geolocalizzazione, niente tracking, link esterni
-- [ ] Contenuto Disclaimer menziona: verifica contatti, nessuna garanzia
+
+- [x] Build completa senza errori
+- [x] Footer mostra "Privacy | Disclaimer" su tutte le pagine
+- [x] Link portano a pagine corrette con contenuto leggibile
+- [x] Path helper in `paths.ts` seguono convenzioni esistenti
+- [x] Focus states applicati a nuovi link
+- [x] Contenuto Privacy menziona: geolocalizzazione, niente tracking, link esterni
+- [x] Contenuto Disclaimer menziona: verifica contatti, nessuna garanzia
 
 ## Notes
+
 - Nessun design.md necessario: pattern già consolidato (vedi `info.md`)
 - Nessuna breaking change: aggiunta pura, niente modifica routing esistente
 - Footer layout mantiene semplicità: una riga, centrato, link + testo esistente

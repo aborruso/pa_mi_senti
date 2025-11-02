@@ -1,4 +1,4 @@
-const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
+const BASE = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 
 const withBase = (path: string): string => `${BASE}${path}`;
 
@@ -16,3 +16,7 @@ export const buildTemplatePath = (
 ): string => withBase(`/citta/${istat}/${contextSlug}/messaggi/${channelKey}/`);
 
 export const buildInfoPath = (): string => withBase(`/info/`);
+
+export const buildPrivacyPath = (): string => withBase(`/privacy/`);
+
+export const buildDisclaimerPath = (): string => withBase(`/disclaimer/`);
