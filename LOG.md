@@ -1,6 +1,16 @@
 # Registro Evoluzione Progetto
 
-## 2025-11-02
+## 2025-11-02 — Pagine legali
+
+- Aggiunte pagine Privacy Policy e Disclaimer accessibili dal footer
+- Privacy Policy copre: geolocalizzazione GPS/mappa opzionale, zero tracking/cookie, link esterni (OpenStreetMap, GitHub Pages, MapLibre)
+- Disclaimer specifica: contatti PA verificati manualmente ma non garantiti, nessuna responsabilità su accuratezza, verificare su siti PA ufficiali
+- Footer aggiornato con link "Privacy | Disclaimer" su tutte le pagine (responsive: mobile flex-col, desktop flex-row con pipe)
+- Path helpers buildPrivacyPath() e buildDisclaimerPath() aggiunti a src/lib/paths.ts
+- Build genera correttamente /privacy/index.html e /disclaimer/index.html
+- Link stilizzati con focus states accessibili (focus-visible:ring-2, hover:text-slate-700)
+
+## 2025-11-02 — Mappa UX
 
 - Migliorata UX mappa interattiva: da marker draggable a pin fisso al centro
 - Utente sposta/zooma mappa, pin resta centrato, coordinate si aggiornano automaticamente
