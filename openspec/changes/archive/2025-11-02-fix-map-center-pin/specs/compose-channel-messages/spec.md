@@ -1,6 +1,6 @@
 # Spec: Compose Channel Messages - Map Center Pin
 
-## MODIFIED Requirements
+## ADDED Requirements
 
 ### Requirement: Map-based location selection uses fixed center pin
 
