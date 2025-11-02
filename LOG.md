@@ -1,5 +1,14 @@
 # Registro Evoluzione Progetto
 
+## 2025-11-02
+
+- Migliorata UX mappa interattiva: da marker draggable a pin fisso al centro
+- Utente sposta/zooma mappa, pin resta centrato, coordinate si aggiornano automaticamente
+- Pattern più intuitivo e mobile-friendly (stile Uber, delivery apps)
+- Event `moveend` sostituisce `dragend` per update coordinate
+- Pin SVG CSS-positioned, nessun elemento MapLibre draggable
+- Modificato solo `MapPickerModal.tsx`, nessun breaking change
+
 ## 2025-10-27
 
 - Release 2: mappa interattiva per scelta manuale coordinate

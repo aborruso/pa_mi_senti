@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { loadMapLibre } from "../../lib/map-loader";
 import { requestCurrentPosition } from "../../lib/location";
-import type { Map as MapLibreMap, Marker } from "maplibre-gl";
+import type { Map as MapLibreMap } from "maplibre-gl";
 
 interface Coordinates {
   latitude: number;
@@ -34,7 +34,6 @@ const MapPickerModal = ({
 }: MapPickerModalProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
-  const markerRef = useRef<Marker | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -110,31 +109,27 @@ const MapPickerModal = ({
           zoom: startZoom
         });
 
-        // Create draggable marker
-        const marker = new maplibre.Marker({
-          draggable: true,
-          color: "#8b5cf6" // brand color
-        })
-          .setLngLat([startCoords.longitude, startCoords.latitude])
-          .addTo(map);
+        mapRef.current = map;
 
-        // Update coords on drag
-        marker.on("dragend", () => {
-          const lngLat = marker.getLngLat();
+        // Update coordinates when map stops moving
+        map.on("moveend", () => {
+          const center = map.getCenter();
           setCurrentCoords({
-            latitude: lngLat.lat,
-            longitude: lngLat.lng
+            latitude: center.lat,
+            longitude: center.lng
           });
         });
-
-        mapRef.current = map;
-        markerRef.current = marker;
-        setCurrentCoords(startCoords);
 
         map.on("load", () => {
           if (isMounted) {
             setIsLoadingMap(false);
             closeButtonRef.current?.focus();
+            // Set initial coordinates after load
+            const center = map.getCenter();
+            setCurrentCoords({
+              latitude: center.lat,
+              longitude: center.lng
+            });
           }
         });
 
@@ -154,10 +149,6 @@ const MapPickerModal = ({
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
-      }
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = null;
       }
     };
   }, [isOpen, initialCoords]);
@@ -194,7 +185,7 @@ const MapPickerModal = ({
   }, [isOpen, isLoadingGPS, onClose]);
 
   const handleUseGPS = async () => {
-    if (!mapRef.current || !markerRef.current) {
+    if (!mapRef.current) {
       return;
     }
 
@@ -203,17 +194,12 @@ const MapPickerModal = ({
     try {
       const coords = await requestCurrentPosition();
 
-      // Update marker position
-      markerRef.current.setLngLat([coords.longitude, coords.latitude]);
-
-      // Center map on new position
+      // Center map on new position (moveend will update coordinates)
       mapRef.current.flyTo({
         center: [coords.longitude, coords.latitude],
         zoom: PICKED_ZOOM,
         duration: 1500
       });
-
-      setCurrentCoords(coords);
     } catch (error) {
       window.alert("Non è stato possibile recuperare la tua posizione GPS.");
     } finally {
@@ -250,7 +236,7 @@ const MapPickerModal = ({
               Scegli la posizione sulla mappa
             </h2>
             <p className="text-sm text-slate-600">
-              Trascina il marcatore o usa il GPS per posizionarlo
+              Sposta la mappa per posizionare il marcatore al centro
             </p>
           </div>
           <button
@@ -314,6 +300,26 @@ const MapPickerModal = ({
             className="h-full w-full"
             aria-label="Mappa interattiva per scegliere posizione"
           />
+
+          {/* Fixed center pin */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-full"
+            aria-hidden="true"
+          >
+            <svg
+              width="40"
+              height="48"
+              viewBox="0 0 40 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 0C9.4 0 0 8.4 0 20c0 14 20 28 20 28s20-14 20-28C40 8.4 30.6 0 20 0zm0 28c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"
+                fill="#8b5cf6"
+              />
+              <circle cx="20" cy="20" r="5" fill="white" />
+            </svg>
+          </div>
 
           {/* GPS Button overlay */}
           {!isLoadingMap && !mapError && (
