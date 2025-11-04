@@ -55,7 +55,7 @@ templates:
       - id: 'diserbo_verde'
         label: 'Segnalazione diserbo verde'
         description: 'Per segnalare la necessità di diserbo e manutenzione del verde pubblico'
-        subject: 'Segnalazione diserbo verde pubblico in {indirizzo}'
+        subject: 'Segnalazione diserbo verde pubblico'
         message: |
           Buongiorno,
           segnalo la necessità di diserbo e manutenzione del verde pubblico in {indirizzo}.
