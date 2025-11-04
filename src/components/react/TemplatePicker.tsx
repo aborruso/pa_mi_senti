@@ -77,19 +77,17 @@ const TemplatePicker = ({
   const availableTemplates = useMemo(() => {
     const defined = templates ?? [];
 
-    if (!isSocialChannel) {
-      return defined;
-    }
-
+    // Add custom template for both social and email channels
     const custom: MessageTemplateItem = {
       id: 'custom',
-      label: 'Scrivi un messaggio libero',
-      description:
-        'Apri Twitter/X con il destinatario già compilato e completa il testo.',
-      message: baseMessage
+      label: isEmailChannel ? 'Scrivi una email libera' : 'Scrivi un messaggio libero',
+      description: isEmailChannel
+        ? 'Apri il client email con il destinatario già compilato e scrivi il tuo messaggio.'
+        : 'Apri Twitter/X con il destinatario già compilato e completa il testo.',
+      message: isEmailChannel ? '' : baseMessage
     };
     return [...defined, custom];
-  }, [templates, baseMessage, isSocialChannel]);
+  }, [templates, baseMessage, isSocialChannel, isEmailChannel]);
 
   // Focus trap and ESC key handling for modal dialog
   useEffect(() => {
@@ -253,7 +251,7 @@ const TemplatePicker = ({
           <h2 className="text-2xl font-semibold text-slate-900">{channelLabel}</h2>
           <p className="mt-2 text-sm text-slate-600">
             {isEmailChannel
-              ? "Scegli uno dei modelli e invia l'email con oggetto e testo già compilati. Potrai sempre modificare i dettagli nel tuo client di posta."
+              ? 'Scegli uno dei modelli predefiniti oppure scrivi una email libera. Potrai sempre modificare i dettagli nel tuo client di posta.'
               : "Scegli uno dei modelli rapidi oppure apri Twitter/X con un messaggio libero. Potrai sempre modificare il testo prima dell'invio."}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
