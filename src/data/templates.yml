@@ -1,50 +1,66 @@
 templates:
-  - contextSlug: "nettezza_urbana"
-    channelKey: "palermo-rap-twitter"
-    channelType: "social"
+  - contextSlug: 'nettezza_urbana'
+    channelKey: 'palermo-rap-twitter'
+    channelType: 'social'
     templates:
-      - id: "rifiuti_abbandonati"
-        label: "Abbandono di rifiuti"
-        description: "Per cumuli di rifiuti in strada o in prossimità di cassonetti."
-        message: "Buongiorno @RapPalermo, segnalo un abbandono di rifiuti in {indirizzo}. Potete intervenire? Grazie!"
-      - id: "cestini_pieni"
-        label: "Cestini pieni"
-        description: "Per cestini pubblici colmi o inutilizzabili."
-        message: "Buongiorno @RapPalermo, segnalo che i cestini in {indirizzo} sono pieni e inutilizzabili. Potete verificarli? Grazie!"
-      - id: "mancato_spazzamento"
-        label: "Mancato spazzamento"
-        description: "Per segnalare presenza di rifiuti abbandonati e una frequenza di spazzamento non adeguata."
-        message: "Buongiorno @RapPalermo, segnalo che in {indirizzo} sono presenti abbandoni e la frequenza di spazzamento non è adeguata. Potete intervenire? Grazie!"
-      - id: "recupet_pieno_guasto"
-        label: "Eco compattatore Recupet pieno/guasto"
+      - id: 'rifiuti_abbandonati'
+        label: 'Abbandono di rifiuti'
+        description: 'Per cumuli di rifiuti in strada o in prossimità di cassonetti.'
+        message: 'Buongiorno @RapPalermo, segnalo un abbandono di rifiuti in {indirizzo}. Potete intervenire? Grazie!'
+      - id: 'cestini_pieni'
+        label: 'Cestini pieni'
+        description: 'Per cestini pubblici colmi o inutilizzabili.'
+        message: 'Buongiorno @RapPalermo, segnalo che i cestini in {indirizzo} sono pieni e inutilizzabili. Potete verificarli? Grazie!'
+      - id: 'mancato_spazzamento'
+        label: 'Mancato spazzamento'
+        description: 'Per segnalare presenza di rifiuti abbandonati e una frequenza di spazzamento non adeguata.'
+        message: 'Buongiorno @RapPalermo, segnalo che in {indirizzo} sono presenti abbandoni e la frequenza di spazzamento non è adeguata. Potete intervenire? Grazie!'
+      - id: 'recupet_pieno_guasto'
+        label: 'Eco compattatore Recupet pieno/guasto'
         description: "Per segnalare che l'eco compattatore Recupet è pieno o non funzionante."
         message: "Buongiorno @RapPalermo, segnalo che in {indirizzo} l'eco compattatore Recupet è pieno/guasto e non funzionante. Vi prego di intervenire. Grazie."
-  - contextSlug: "polizia_municipale"
-    channelKey: "palermo-vigili-twitter"
-    channelType: "social"
+  - contextSlug: 'polizia_municipale'
+    channelKey: 'palermo-vigili-twitter'
+    channelType: 'social'
     templates:
-      - id: "parcheggio_moto_occupato"
-        label: "Parcheggio moto occupato da auto"
-        description: "Per segnalare stalli riservati alle moto occupati abusivamente da autoveicoli."
-        message: "Buongiorno @PALERMOPM, segnalo che gli stalli per moto in {indirizzo} sono occupati da autoveicoli. Potete intervenire? Grazie!"
-      - id: "scivolo_disabili_occupato"
-        label: "Scivolo marciapiede occupato"
+      - id: 'parcheggio_moto_occupato'
+        label: 'Parcheggio moto occupato da auto'
+        description: 'Per segnalare stalli riservati alle moto occupati abusivamente da autoveicoli.'
+        message: 'Buongiorno @PALERMOPM, segnalo che gli stalli per moto in {indirizzo} sono occupati da autoveicoli. Potete intervenire? Grazie!'
+      - id: 'scivolo_disabili_occupato'
+        label: 'Scivolo marciapiede occupato'
         description: "Per segnalare scivoli del marciapiede occupati da autoveicoli che impediscono l'attraversamento."
-        message: "Buongiorno @PALERMOPM, segnalo che lo scivolo del marciapiede in {indirizzo} è occupato da un autoveicolo e non è attraversabile. Potete intervenire? Grazie!"
-      - id: "animali_abbandonati"
-        label: "Animali abbandonati"
-        description: "Per segnalare la presenza di animali abbandonati su strada o in aree pubbliche."
-        message: "Buongiorno @PALERMOPM, segnalo la presenza di animali abbandonati in {indirizzo}. Vi prego di intervenire. Grazie!"
-  - contextSlug: "acqua_e_fognature"
-    channelKey: "palermo-acqua-email"
-    channelType: "email"
+        message: 'Buongiorno @PALERMOPM, segnalo che lo scivolo del marciapiede in {indirizzo} è occupato da un autoveicolo e non è attraversabile. Potete intervenire? Grazie!'
+      - id: 'animali_abbandonati'
+        label: 'Animali abbandonati'
+        description: 'Per segnalare la presenza di animali abbandonati su strada o in aree pubbliche.'
+        message: 'Buongiorno @PALERMOPM, segnalo la presenza di animali abbandonati in {indirizzo}. Vi prego di intervenire. Grazie!'
+  - contextSlug: 'acqua_e_fognature'
+    channelKey: 'palermo-acqua-email'
+    channelType: 'email'
     templates:
-      - id: "tombino_otturato"
-        label: "Tombino otturato"
-        description: "Per segnalare tombini o caditoie bloccati."
-        subject: "Segnalazione tombino otturato in {indirizzo}"
+      - id: 'tombino_otturato'
+        label: 'Tombino otturato'
+        description: 'Per segnalare tombini o caditoie bloccati.'
+        subject: 'Segnalazione tombino otturato in {indirizzo}'
         message: |
           Questo tombino è otturato, allego coordinate geografiche e foto.
           Intervenire gentilmente prima che arrivi la prossima bomba d'acqua e si creino situazioni critiche.
+
+          Grazie.
+  - contextSlug: 'verde_pubblico'
+    channelKey: 'palermo-verde-email'
+    channelType: 'email'
+    templates:
+      - id: 'diserbo_verde'
+        label: 'Segnalazione diserbo verde'
+        description: 'Per segnalare la necessità di diserbo e manutenzione del verde pubblico'
+        subject: 'Segnalazione diserbo verde pubblico in {indirizzo}'
+        message: |
+          Buongiorno,
+
+          Segnalo la necessità di diserbo e manutenzione del verde pubblico in {indirizzo}.
+
+          Allego eventuali foto della situazione.
 
           Grazie.

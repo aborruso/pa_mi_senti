@@ -1,11 +1,11 @@
-import { useMemo, useState, useEffect, useRef, lazy, Suspense } from "react";
-import { buildTwitterIntentUrl, extractTwitterHandle } from "../../lib/social";
-import { requestCurrentPosition, appendLocationLinkFromCoords } from "../../lib/location";
-import type { Coordinates } from "../../lib/location";
-import type { MessageTemplateItem, ChannelType } from "../../lib/types";
+import { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { buildTwitterIntentUrl, extractTwitterHandle } from '../../lib/social';
+import { requestCurrentPosition, appendLocationLinkFromCoords } from '../../lib/location';
+import type { Coordinates } from '../../lib/location';
+import type { MessageTemplateItem, ChannelType } from '../../lib/types';
 
 // Lazy load map component
-const MapPickerModal = lazy(() => import("./MapPickerModal"));
+const MapPickerModal = lazy(() => import('./MapPickerModal'));
 
 interface TemplatePickerProps {
   municipalityName: string;
@@ -30,31 +30,36 @@ const TemplatePicker = ({
   const [showLocationDialog, setShowLocationDialog] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
-  const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(null);
+  const [pendingTemplate, setPendingTemplate] = useState<MessageTemplateItem | null>(
+    null
+  );
   const dialogRef = useRef<HTMLDivElement>(null);
   const gpsButtonRef = useRef<HTMLButtonElement>(null);
 
-  const isSocialChannel = channelType === "social";
-  const isEmailChannel = channelType === "email";
+  const isSocialChannel = channelType === 'social';
+  const isEmailChannel = channelType === 'email';
 
-  const buildMailtoUrl = (template: MessageTemplateItem, messageOverride?: string): string => {
+  const buildMailtoUrl = (
+    template: MessageTemplateItem,
+    messageOverride?: string
+  ): string => {
     const subjectValue = template.subject?.trim() || `Segnalazione ${contextName}`;
-    const bodyValue = (messageOverride ?? template.message ?? "").trim();
+    const bodyValue = (messageOverride ?? template.message ?? '').trim();
     const encodedSubject = encodeURIComponent(subjectValue);
-    const encodedBody = encodeURIComponent(bodyValue).replace(/%0A/g, "%0D%0A");
+    const encodedBody = encodeURIComponent(bodyValue).replace(/%0A/g, '%0D%0A');
     const queryParams = [`subject=${encodedSubject}`];
     if (bodyValue) {
       queryParams.push(`body=${encodedBody}`);
     }
-    return `mailto:${channelValue}?${queryParams.join("&")}`;
+    return `mailto:${channelValue}?${queryParams.join('&')}`;
   };
 
   const triggerMailto = (url: string) => {
-    const tempLink = document.createElement("a");
+    const tempLink = document.createElement('a');
     tempLink.href = url;
-    tempLink.target = "_blank";
-    tempLink.style.display = "none";
-    tempLink.rel = "noopener";
+    tempLink.target = '_blank';
+    tempLink.style.display = 'none';
+    tempLink.rel = 'noopener';
     document.body.appendChild(tempLink);
     tempLink.click();
     document.body.removeChild(tempLink);
@@ -67,7 +72,7 @@ const TemplatePicker = ({
     return extractTwitterHandle(channelValue);
   }, [channelValue, isSocialChannel]);
 
-  const baseMessage = handle ? `${handle} ` : "";
+  const baseMessage = handle ? `${handle} ` : '';
 
   const availableTemplates = useMemo(() => {
     const defined = templates ?? [];
@@ -77,9 +82,10 @@ const TemplatePicker = ({
     }
 
     const custom: MessageTemplateItem = {
-      id: "custom",
-      label: "Scrivi un messaggio libero",
-      description: "Apri Twitter/X con il destinatario già compilato e completa il testo.",
+      id: 'custom',
+      label: 'Scrivi un messaggio libero',
+      description:
+        'Apri Twitter/X con il destinatario già compilato e completa il testo.',
       message: baseMessage
     };
     return [...defined, custom];
@@ -93,18 +99,20 @@ const TemplatePicker = ({
     gpsButtonRef.current?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !isLoadingLocation) {
+      if (e.key === 'Escape' && !isLoadingLocation) {
         setShowLocationDialog(false);
         setPendingTemplate(null);
       }
 
       // Trap focus within dialog
-      if (e.key === "Tab" && dialogRef.current) {
+      if (e.key === 'Tab' && dialogRef.current) {
         const focusableElements = dialogRef.current.querySelectorAll(
           'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
         const firstElement = focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+        const lastElement = focusableElements[
+          focusableElements.length - 1
+        ] as HTMLElement;
 
         if (e.shiftKey && document.activeElement === firstElement) {
           e.preventDefault();
@@ -116,12 +124,12 @@ const TemplatePicker = ({
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showLocationDialog, isLoadingLocation]);
 
   const handleUseTemplate = async (template: MessageTemplateItem) => {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       return;
     }
 
@@ -141,7 +149,7 @@ const TemplatePicker = ({
       triggerMailto(mailtoUrl);
     } else if (isSocialChannel) {
       const finalUrl = buildTwitterIntentUrl(message);
-      window.open(finalUrl, "_blank", "noopener");
+      window.open(finalUrl, '_blank', 'noopener');
     }
   };
 
@@ -149,7 +157,7 @@ const TemplatePicker = ({
     let message = template.message || baseMessage;
 
     // Aggiungi l'hashtag #PaMiSenti solo se non è il template custom (messaggio libero)
-    if (isSocialChannel && template.id !== "custom" && message.trim()) {
+    if (isSocialChannel && template.id !== 'custom' && message.trim()) {
       message = `${message.trim()} #PaMiSenti`;
     }
 
@@ -167,16 +175,16 @@ const TemplatePicker = ({
       const initialMessage = buildInitialMessage(pendingTemplate);
       let finalMessage = appendLocationLinkFromCoords(initialMessage, coords);
 
-      if (isEmailChannel && finalMessage.includes("https://www.google.com/maps/place")) {
+      if (isEmailChannel && finalMessage.includes('https://www.google.com/maps/place')) {
         finalMessage = finalMessage.replace(
           /\s(https:\/\/www\.google\.com\/maps\/place\/.+)$/i,
-          "\n\n$1"
+          '\n\n$1'
         );
       }
 
       sendMessage(finalMessage, pendingTemplate);
     } catch (error) {
-      window.alert("Non è stato possibile recuperare la tua posizione GPS.");
+      window.alert('Non è stato possibile recuperare la tua posizione GPS.');
     } finally {
       setIsLoadingLocation(false);
       setShowLocationDialog(false);
@@ -197,10 +205,10 @@ const TemplatePicker = ({
     const initialMessage = buildInitialMessage(template);
     let finalMessage = appendLocationLinkFromCoords(initialMessage, coords);
 
-    if (isEmailChannel && finalMessage.includes("https://www.google.com/maps/place")) {
+    if (isEmailChannel && finalMessage.includes('https://www.google.com/maps/place')) {
       finalMessage = finalMessage.replace(
         /\s(https:\/\/www\.google\.com\/maps\/place\/.+)$/i,
-        "\n\n$1"
+        '\n\n$1'
       );
     }
 
@@ -239,7 +247,9 @@ const TemplatePicker = ({
     <>
       <section className="space-y-6">
         <header className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-xs uppercase tracking-wide text-brand">Messaggi precompilati</p>
+          <p className="text-xs uppercase tracking-wide text-brand">
+            Messaggi precompilati
+          </p>
           <h2 className="text-2xl font-semibold text-slate-900">{channelLabel}</h2>
           <p className="mt-2 text-sm text-slate-600">
             {isEmailChannel
@@ -248,7 +258,8 @@ const TemplatePicker = ({
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
             <span>
-              Comune: <strong className="font-medium text-slate-900">{municipalityName}</strong>
+              Comune:{' '}
+              <strong className="font-medium text-slate-900">{municipalityName}</strong>
             </span>
             <span>
               Tema: <strong className="font-medium text-slate-900">{contextName}</strong>
@@ -256,7 +267,11 @@ const TemplatePicker = ({
           </div>
         </header>
 
-        <div className="grid gap-4 lg:grid-cols-2" role="list" aria-label="Template messaggi disponibili">
+        <div
+          className="grid gap-4 lg:grid-cols-2"
+          role="list"
+          aria-label="Template messaggi disponibili"
+        >
           {availableTemplates.map((template) => (
             <article
               key={template.id}
@@ -270,14 +285,17 @@ const TemplatePicker = ({
                 ) : null}
                 {isEmailChannel && template.subject ? (
                   <p className="mt-3 text-sm font-medium text-slate-700">
-                    Oggetto: <span className="font-semibold text-slate-900">{template.subject}</span>
+                    Oggetto:{' '}
+                    <span className="font-semibold text-slate-900">
+                      {template.subject}
+                    </span>
                   </p>
                 ) : null}
                 {isEmailChannel ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-600">
                     <p className="font-medium text-slate-700">Destinatari:</p>
                     <div className="flex flex-wrap gap-2">
-                      {channelValue.split(",").map((recipient) => (
+                      {channelValue.split(',').map((recipient) => (
                         <span
                           key={recipient.trim()}
                           className="inline-flex items-center rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700"
@@ -303,10 +321,10 @@ const TemplatePicker = ({
                 aria-label={`Usa il messaggio: ${template.label}`}
               >
                 {isEmailChannel
-                  ? "Scrivi email"
+                  ? 'Scrivi email'
                   : activeTemplate === template.id
-                    ? "Recupero posizione…"
-                    : "Usa questo messaggio"}
+                    ? 'Recupero posizione…'
+                    : 'Usa questo messaggio'}
                 <span aria-hidden="true">↗</span>
               </button>
             </article>
@@ -371,21 +389,29 @@ const TemplatePicker = ({
                     role="status"
                     aria-label="Caricamento in corso"
                   ></div>
-                  <h3 id="location-dialog-title" className="text-lg font-semibold text-slate-900">
+                  <h3
+                    id="location-dialog-title"
+                    className="text-lg font-semibold text-slate-900"
+                  >
                     Recupero posizione...
                   </h3>
                 </div>
                 <p className="mt-2 text-sm text-slate-600">
-                  Attendi mentre recuperiamo le coordinate GPS. Potrebbero essere necessari alcuni secondi.
+                  Attendi mentre recuperiamo le coordinate GPS. Potrebbero essere
+                  necessari alcuni secondi.
                 </p>
               </>
             ) : (
               <>
-                <h3 id="location-dialog-title" className="text-lg font-semibold text-slate-900">
+                <h3
+                  id="location-dialog-title"
+                  className="text-lg font-semibold text-slate-900"
+                >
                   Vuoi aggiungere un link con la tua posizione?
                 </h3>
                 <p className="mt-2 text-sm text-slate-600">
-                  Puoi includere un link con la tua posizione attuale {isEmailChannel ? "nell'email" : "nel messaggio"} per facilitare
+                  Puoi includere un link con la tua posizione attuale{' '}
+                  {isEmailChannel ? "nell'email" : 'nel messaggio'} per facilitare
                   l&apos;intervento della PA.
                 </p>
                 <div className="mt-6 space-y-3">
@@ -458,9 +484,13 @@ const TemplatePicker = ({
 
       {/* Map Picker Modal */}
       {showMapPicker && (
-        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="text-white">Caricamento mappa...</div>
-        </div>}>
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+              <div className="text-white">Caricamento mappa...</div>
+            </div>
+          }
+        >
           <MapPickerModal
             isOpen={showMapPicker}
             onClose={handleMapClose}

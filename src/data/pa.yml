@@ -1,125 +1,139 @@
-updatedAt: "2024-08-01"
+updatedAt: '2024-08-01'
 municipalities:
-  - istat: "082053"
-    name: "Palermo"
-    region: "Sicilia"
+  - istat: '082053'
+    name: 'Palermo'
+    region: 'Sicilia'
     population: 637885
     contexts:
-      - slug: "nettezza_urbana"
-        name: "Igiene urbana"
-        description: "Segnala rifiuti abbandonati, cassonetti danneggiati o mancati ritiri."
-        emoji: "♻️"
-        color: "bg-emerald-50"
+      - slug: 'nettezza_urbana'
+        name: 'Igiene urbana'
+        description: 'Segnala rifiuti abbandonati, cassonetti danneggiati o mancati ritiri.'
+        emoji: '♻️'
+        color: 'bg-emerald-50'
         helpfulLinks:
-          - label: "Sito RAP Palermo"
-            url: "https://www.rapspa.it/"
-          - label: "App segnalazioni"
-            url: "https://www.rapspa.it/site/segnalazione/"
+          - label: 'Sito RAP Palermo'
+            url: 'https://www.rapspa.it/'
+          - label: 'App segnalazioni'
+            url: 'https://www.rapspa.it/site/segnalazione/'
         channels:
           # key obbligatoria solo per canali con template in templates.yml
-          - type: "social"
-            key: "palermo-rap-twitter"
-            platform: "twitter"
-            label: "Twitter/X RAP Palermo"
-            value: "https://twitter.com/RapPalermo"
-            notes: "Account ufficiale di RAP S.p.A. - Società di gestione dei rifiuti ed igiene ambientale."
-          - type: "phone"
-            label: "RAP Numero Verde"
-            value: "800237713"
-            notes: "Solo da telefonia fissa"
-          - type: "phone"
-            label: "RAP telefono"
-            value: "0918486510"
-            notes: "Da telefonia fissa e mobile"
-          - type: "email"
-            label: "Email RAP"
-            value: "urp@rapspa.it"
-      - slug: "polizia_municipale"
-        name: "Polizia Municipale"
-        description: "Richiedi interventi per viabilità, incidenti o supporto della Polizia Municipale."
-        emoji: "🚔"
-        color: "bg-blue-50"
+          - type: 'social'
+            key: 'palermo-rap-twitter'
+            platform: 'twitter'
+            label: 'Twitter/X RAP Palermo'
+            value: 'https://twitter.com/RapPalermo'
+            notes: 'Account ufficiale di RAP S.p.A. - Società di gestione dei rifiuti ed igiene ambientale.'
+          - type: 'phone'
+            label: 'RAP Numero Verde'
+            value: '800237713'
+            notes: 'Solo da telefonia fissa'
+          - type: 'phone'
+            label: 'RAP telefono'
+            value: '0918486510'
+            notes: 'Da telefonia fissa e mobile'
+          - type: 'email'
+            label: 'Email RAP'
+            value: 'urp@rapspa.it'
+      - slug: 'polizia_municipale'
+        name: 'Polizia Municipale'
+        description: 'Richiedi interventi per viabilità, incidenti o supporto della Polizia Municipale.'
+        emoji: '🚔'
+        color: 'bg-blue-50'
         helpfulLinks:
-          - label: "Sito Polizia Municipale"
-            url: "https://repository.comune.palermo.it/polizia-municipale.php"
+          - label: 'Sito Polizia Municipale'
+            url: 'https://repository.comune.palermo.it/polizia-municipale.php'
         channels:
-          - type: "social"
-            key: "palermo-vigili-twitter"
-            platform: "twitter"
-            label: "Twitter/X Polizia Municipale"
-            value: "https://twitter.com/PALERMOPM"
-            notes: "Invia DM o menziona @PALERMOPM con dettagli e posizione."
-          - type: "phone"
-            label: "Polizia Municipale Palermo"
-            value: "0916954111"
-          - type: "email"
-            label: "Polizia Municipale"
-            value: "comandopoliziamunicipale@comune.palermo.it"
-      - slug: "manutenzione_strade"
-        name: "Manutenzione strade e marciapiedi"
-        description: "Per segnalare situazioni di urgenza relative a strade e marciapiedi"
-        emoji: "🛣️"
-        color: "bg-yellow-50"
+          - type: 'social'
+            key: 'palermo-vigili-twitter'
+            platform: 'twitter'
+            label: 'Twitter/X Polizia Municipale'
+            value: 'https://twitter.com/PALERMOPM'
+            notes: 'Invia DM o menziona @PALERMOPM con dettagli e posizione.'
+          - type: 'phone'
+            label: 'Polizia Municipale Palermo'
+            value: '0916954111'
+          - type: 'email'
+            label: 'Polizia Municipale'
+            value: 'comandopoliziamunicipale@comune.palermo.it'
+      - slug: 'manutenzione_strade'
+        name: 'Manutenzione strade e marciapiedi'
+        description: 'Per segnalare situazioni di urgenza relative a strade e marciapiedi'
+        emoji: '🛣️'
+        color: 'bg-yellow-50'
         helpfulLinks:
-          - label: "Ufficio infrastrutture viarie e per la mobilità"
-            url: "https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-infrastrutture-viarie-e-per-la-mobilita"
+          - label: 'Ufficio infrastrutture viarie e per la mobilità'
+            url: 'https://www.comune.palermo.it/amministrazione/unita_organizzativa/ufficio-infrastrutture-viarie-e-per-la-mobilita'
         channels:
-          - type: "email"
-            label: "Pronto intervento manutenzione strade"
-            value: "servizio.manutenzionestrade@comune.palermo.it"
+          - type: 'email'
+            label: 'Pronto intervento manutenzione strade'
+            value: 'servizio.manutenzionestrade@comune.palermo.it'
             notes: >
               Inviare segnalazioni con foto e dettagli toponomastici.
               Il servizio è attivo dalle ore 7:30 alle ore 14:00 nei giorni di lunedì, martedì, giovedì e venerdì
               e dalle ore 7:30 alle ore 18:00 di mercoledì.
-      - slug: "illuminazione_pubblica"
-        name: "Illuminazione pubblica e impianti semaforici"
-        description: "Per segnalare guasti o malfunzionamenti degli impianti di pubblica illuminazione e semaforici del Comune di Palermo."
-        emoji: "💡"
-        color: "bg-orange-50"
+      - slug: 'illuminazione_pubblica'
+        name: 'Illuminazione pubblica e impianti semaforici'
+        description: 'Per segnalare guasti o malfunzionamenti degli impianti di pubblica illuminazione e semaforici del Comune di Palermo.'
+        emoji: '💡'
+        color: 'bg-orange-50'
         helpfulLinks:
-          - label: "AMG Energia"
-            url: "https://www.amgenergia.it/"
+          - label: 'AMG Energia'
+            url: 'https://www.amgenergia.it/'
         channels:
-          - type: "phone"
-            label: "Numero verde AMG Energia"
-            value: "800 136 136"
-            notes: "Numero verde per segnalare guasti di illuminazione e impianti semaforici."
-      - slug: "veicoli_abbandonati"
-        name: "Veicoli in stato di abbandono"
-        description: "Per segnalare veicoli in stato di abbandono sul territorio del Comune di Palermo."
-        emoji: "🚗"
-        color: "bg-red-50"
+          - type: 'phone'
+            label: 'Numero verde AMG Energia'
+            value: '800 136 136'
+            notes: 'Numero verde per segnalare guasti di illuminazione e impianti semaforici.'
+      - slug: 'veicoli_abbandonati'
+        name: 'Veicoli in stato di abbandono'
+        description: 'Per segnalare veicoli in stato di abbandono sul territorio del Comune di Palermo.'
+        emoji: '🚗'
+        color: 'bg-red-50'
         helpfulLinks:
-          - label: "Unità Organizzativa Controlli ambientali e Veicoli abbandonati"
-            url: "https://www.comune.palermo.it/amministrazione/unita_organizzativa/uo-controlli-ambientali-e-veicoli-abbandonati/"
+          - label: 'Unità Organizzativa Controlli ambientali e Veicoli abbandonati'
+            url: 'https://www.comune.palermo.it/amministrazione/unita_organizzativa/uo-controlli-ambientali-e-veicoli-abbandonati/'
         channels:
-          - type: "phone"
-            label: "Servizio prevenzione e contrasto Comune di Palermo"
-            value: "091/6954361"
-            notes: "Telefono per segnalare veicoli in stato di abbandono."
-          - type: "email"
-            label: "Email servizio"
-            value: "spg.ncgaa@comune.palermo.it"
-            notes: "Inviare segnalazioni con foto e dettagli toponomastici."
-      - slug: "acqua_e_fognature"
-        name: "Acqua e fognature"
+          - type: 'phone'
+            label: 'Servizio prevenzione e contrasto Comune di Palermo'
+            value: '091/6954361'
+            notes: 'Telefono per segnalare veicoli in stato di abbandono.'
+          - type: 'email'
+            label: 'Email servizio'
+            value: 'spg.ncgaa@comune.palermo.it'
+            notes: 'Inviare segnalazioni con foto e dettagli toponomastici.'
+      - slug: 'acqua_e_fognature'
+        name: 'Acqua e fognature'
         description: "Per segnalare problemi legati al servizio idrico: fuoriuscite d'acqua, tombini occlusi, guasti a condotte fognarie, scavi e pericoli."
-        emoji: "🚰"
-        color: "bg-sky-50"
+        emoji: '🚰'
+        color: 'bg-sky-50'
         helpfulLinks:
-          - label: "Sito AMAP S.p.A."
-            url: "https://www.amapspa.it/"
+          - label: 'Sito AMAP S.p.A.'
+            url: 'https://www.amapspa.it/'
         channels:
-          - type: "phone"
-            label: "Numero verde AMAP"
-            value: "800 050 911"
-            notes: "Numero verde per segnalazioni 24/7"
-          - type: "form"
-            label: "Modulo online AMAP"
-            value: "https://www.amapspa.it/it/segnalazioni/"
-            notes: "Compila il modulo online per una segnalazione strutturata"
-          - type: "email"
-            key: "palermo-acqua-email"
-            label: "Uffici vari"
-            value: "segreteria.foam@amapspa.it, ufficio.idrogeologicofognario@comune.palermo.it, info@amapspa.it"
-            notes: "Email per segnalare tombini e caditoie otturati o ostruiti."
+          - type: 'phone'
+            label: 'Numero verde AMAP'
+            value: '800 050 911'
+            notes: 'Numero verde per segnalazioni 24/7'
+          - type: 'form'
+            label: 'Modulo online AMAP'
+            value: 'https://www.amapspa.it/it/segnalazioni/'
+            notes: 'Compila il modulo online per una segnalazione strutturata'
+          - type: 'email'
+            key: 'palermo-acqua-email'
+            label: 'Uffici vari'
+            value: 'segreteria.foam@amapspa.it, ufficio.idrogeologicofognario@comune.palermo.it, info@amapspa.it'
+            notes: 'Email per segnalare tombini e caditoie otturati o ostruiti.'
+      - slug: 'verde_pubblico'
+        name: 'Verde pubblico'
+        description: 'Per segnalare problemi relativi a manutenzione di parchi, alberi, aree verdi e spazi pubblici verdi.'
+        emoji: '🌳'
+        color: 'bg-lime-50'
+        helpfulLinks:
+          - label: 'Reset Palermo'
+            url: 'https://resetpalermo.it/'
+        channels:
+          - type: 'email'
+            key: 'palermo-verde-email'
+            label: 'Area Verde Reset Palermo'
+            value: 'areaverde@resetpalermo.it'
+            notes: 'Email per segnalazioni di manutenzione e verde pubblico. Includere foto e dettagli toponomastici.'
