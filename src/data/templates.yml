@@ -58,9 +58,6 @@ templates:
         subject: 'Segnalazione diserbo verde pubblico in {indirizzo}'
         message: |
           Buongiorno,
+          segnalo la necessità di diserbo e manutenzione del verde pubblico in {indirizzo}.
 
-          Segnalo la necessità di diserbo e manutenzione del verde pubblico in {indirizzo}.
-
-          Allego eventuali foto della situazione.
-
-          Grazie.
+          Grazie
