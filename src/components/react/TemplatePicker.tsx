@@ -177,13 +177,10 @@ const TemplatePicker = ({
       message = message.replace(/\{indirizzo\}/g, address as string);
     }
 
-    // Social: se l'indirizzo è stato inserito nel testo, si omette il link Maps
-    // (limite 280 caratteri). Altrimenti lo si appende come fallback.
-    // Email: si include sempre il link (nessun limite di lunghezza).
-    let finalMessage = message;
-    if (isEmailChannel || !addressInserted) {
-      finalMessage = appendLocationLinkFromCoords(message, coords);
-    }
+    // Il link Google Maps si appende sempre (oltre all'indirizzo testuale): dà la
+    // posizione precisa. Su Twitter ogni URL conta 23 caratteri fissi (t.co),
+    // quindi non c'è rischio concreto di superare i 280.
+    let finalMessage = appendLocationLinkFromCoords(message, coords);
 
     if (isEmailChannel && finalMessage.includes('https://www.google.com/maps/place')) {
       finalMessage = finalMessage.replace(

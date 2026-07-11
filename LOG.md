@@ -1,5 +1,10 @@
 # Registro Evoluzione Progetto
 
+## 2026-06-30 — Ripristinato link Google Maps nel tweet
+
+- Rimossa la guardia 280 che ometteva il link Maps sui social quando c'era l'indirizzo: ora si tengono ENTRAMBI (via + link)
+- Motivo: Twitter conta ogni URL 23 caratteri fissi (t.co), nessun rischio reale di sforare i 280
+
 ## 2026-06-30 — Fix flusso GPS (regressione pre-open)
 
 - Rimosso il pre-open della scheda (`window.open('','_blank')`): mandava la pagina in background facendo fallire `getCurrentPosition` ("non riesce geocoding") e impediva l'apertura dell'app Twitter (navigava twitter nel browser)

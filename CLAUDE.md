@@ -164,7 +164,7 @@ contexts:
 - Draggable marker, live coordinates display, "Usa posizione GPS" button in map
 - **Reverse geocoding**: `reverseGeocode()` in [src/lib/location.ts](src/lib/location.ts) calls Nominatim (OSM, no API key) to turn coords into a street name, substituted into the `{indirizzo}` placeholder. 2.5s `AbortController` timeout; on failure/timeout returns `null` and `{indirizzo}` stays literal. Only called when the message actually contains `{indirizzo}` (free messages skip the network call)
 - **Do NOT pre-open the tab** before `window.open`: opening a blank tab backgrounds the page (breaks `getCurrentPosition`) and navigating an already-open tab to a `twitter.com/intent` URL stops the mobile Twitter app from deep-linking. Open directly after the awaits (`window.open(url, '_blank', 'noopener')`)
-- **280-char guard**: for social channels, when an address is resolved the Google Maps link is **omitted** (address replaces it); the maps link is kept only as fallback (no address) or for email (no length limit)
+- **Google Maps link always appended**: both the resolved street address (in `{indirizzo}`) and the maps link are kept. Twitter counts every URL as a fixed 23 chars (t.co), so there is no real 280-char risk for normal templates
 
 ### 4. Message Templates
 
